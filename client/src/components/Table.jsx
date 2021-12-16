@@ -40,9 +40,9 @@ class Table extends Component {
 
 const mapStateToProps = state => {
   return {
-    contextYear: state.dataReducer.contextYear,
-    isFetching: state.dataReducer.isFetching,
-    isFailed: state.dataReducer.isFailed
+    contextYear: state.appReducer.contextYear,
+    isFetching: state.appReducer.isFetching,
+    isFailed: state.appReducer.isFailed
   };
 };
 

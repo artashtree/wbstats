@@ -113,7 +113,7 @@ class TableBody extends Component {
 }
 
 const mapStateToProps = state => {
-  const { data, contextYear, sorting } = state.dataReducer;
+  const { data, contextYear, sorting } = state.appReducer;
   return { data, contextYear, sorting };
 };
 

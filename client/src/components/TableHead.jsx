@@ -62,7 +62,7 @@ class TableHead extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    sorting: state.dataReducer.sorting
+    sorting: state.appReducer.sorting
   }
 }
 
