@@ -96,6 +96,7 @@ class TableBody extends Component {
                       href={`https://en.wikipedia.org/wiki/${name}`}
                       tabIndex={expanded ? "0" : "-1"}
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       {name}
                     </a>

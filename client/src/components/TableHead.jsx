@@ -31,8 +31,8 @@ class TableHead extends Component {
             <button data-group-name={groups.p} onClick={this.sortByGroup}>
               Population
               <i className={
-                groupName == groups.p 
-                ? direction == 'asc' ? 'icon-circle-up' : 'icon-circle-down' 
+                groupName === groups.p 
+                ? direction === 'asc' ? 'icon-circle-up' : 'icon-circle-down' 
                 : 'icon-circle-up'}></i>
             </button>
           </th>
@@ -40,8 +40,8 @@ class TableHead extends Component {
             <button data-group-name={groups.gdp} onClick={this.sortByGroup}>
               Economy
               <i className={
-                groupName == groups.gdp 
-                ? direction == 'asc' ? 'icon-circle-up' : 'icon-circle-down' 
+                groupName === groups.gdp 
+                ? direction === 'asc' ? 'icon-circle-up' : 'icon-circle-down' 
                 : 'icon-circle-up'}></i>
             </button>
           </th>
@@ -49,8 +49,8 @@ class TableHead extends Component {
             <button data-group-name={groups.gdpc} onClick={this.sortByGroup}>
               GDP per capita
               <i className={
-                groupName == groups.gdpc 
-                ? direction == 'asc' ? 'icon-circle-up' : 'icon-circle-down' 
+                groupName === groups.gdpc 
+                ? direction === 'asc' ? 'icon-circle-up' : 'icon-circle-down' 
                 : 'icon-circle-up'}></i>
             </button>
           </th>
