@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Preloader.scss";
+import "./Preloader.css";
 
 class Preloader extends Component {
   render() {

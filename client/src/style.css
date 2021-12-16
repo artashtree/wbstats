@@ -1,0 +1,13 @@
+body {
+    margin: 0;
+    background-color: #ccc;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+        'Lucida Sans', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.error-message {
+    padding: 50px 0;
+    text-align: center;
+}
