@@ -11,8 +11,8 @@ import {
   FETCH_WIKI_DATA_FAILURE,
   COLLAPSE_RECORDS
 } from "./types";
-import { getData, getWikiExtract } from "../../helpers";
-import { wikiApi } from "../../api";
+import { getData, getWikiExtract } from "../helpers";
+import { wikiApi } from "../api";
 
 export const fetchData = content => {
   return dispatch => {

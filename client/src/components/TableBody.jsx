@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { expandRecord, fetchWikiData, collapseRecords } from "../redux/actions";
+import { expandRecord, fetchWikiData, collapseRecords } from "../actions";
 import { Link, withRouter } from "react-router-dom";
 
 class TableBody extends Component {

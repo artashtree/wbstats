@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setYear, setData, fetchData } from '../redux/actions';
+import { setYear, setData, fetchData } from '../actions';
 import logo from './logo-wb.svg';
 import './Header.css';
 

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import Preloader from './Preloader';
-import { setData, fetchData } from "../redux/actions";
+import { setData, fetchData } from "../actions";
 import './Table.css';
 
 class Table extends Component {

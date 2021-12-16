@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { sortByGroup } from "../redux/actions";
+import { sortByGroup } from "../actions";
 
 const groups = {
   p: 'population',
