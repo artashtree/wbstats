@@ -35,6 +35,10 @@ export default function (state = initialState, action) {
                 data: action.payload,
                 isFetching: false,
                 isFailed: false,
+                sorting: {
+                    direction: '',
+                    groupName: '',
+                },
             };
         }
 
@@ -43,6 +47,10 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 isFailed: true,
+                sorting: {
+                    direction: '',
+                    groupName: '',
+                },
             };
         }
 
