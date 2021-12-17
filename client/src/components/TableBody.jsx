@@ -5,6 +5,18 @@ import { expandRecord, fetchWikiData, collapseRecords } from '../actions';
 import { Link, withRouter } from 'react-router-dom';
 
 class TableBody extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.currencyFormatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'narrowSymbol',
+        });
+
+        this.numberFormatter = new Intl.NumberFormat('en-US');
+    }
+
     componentDidMount() {
         const { history, data } = this.props;
         let itemKey = history.location.pathname.slice(3).toUpperCase();
@@ -78,11 +90,19 @@ class TableBody extends React.Component {
                                 {this.decodeHtmlEntities(name)}
                             </Link>
                         </td>
-                        <td>{population ? population : 'no data'}</td>
-                        <td>{gdp ? `$${parseInt(gdp, 10)}` : 'no data'}</td>
+                        <td>
+                            {population
+                                ? this.numberFormatter.format(population)
+                                : 'no data'}
+                        </td>
+                        <td>
+                            {gdp
+                                ? `${this.currencyFormatter.format(gdp)}`
+                                : 'no data'}
+                        </td>
                         <td>
                             {gdpCapita
-                                ? `$${parseInt(gdpCapita, 10)}`
+                                ? `${this.currencyFormatter.format(gdpCapita)}`
                                 : 'no data'}
                         </td>
                     </tr>
