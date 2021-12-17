@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "React with Node.js app to show Wourld Bank statistics",
   "engines": {
-    "node": "12.x",
+    "node": "16.x",
     "yarn": "1.22.4"
   },
   "main": "index.js",
