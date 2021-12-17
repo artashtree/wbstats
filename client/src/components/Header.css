@@ -9,11 +9,11 @@
 }
 .form__input {
     background-color: transparent;
-    border: 0;
+    border-radius: 5px;
     font-size: 18px;
     line-height: 25px;
-    padding: 0 10px;
-    width: 45px;
+    padding: 0 0 0 10px;
+    width: 65px;
 }
 .form_input:focus {
     background-color: white;

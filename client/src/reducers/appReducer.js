@@ -12,6 +12,7 @@ const initialState = {
   contextYear: "2018",
   isFetching: false,
   isFailed: false,
+  itemsCount: 300,
   sorting: {
     direction: "desc",
     groupName: "population"
