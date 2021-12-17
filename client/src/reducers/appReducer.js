@@ -93,6 +93,8 @@ export default function (state = initialState, action) {
             const { data, contextYear, sorting } = state;
             const { direction } = sorting;
             const { groupName } = action.payload;
+            const prevGroupName = sorting.groupName;
+
             const sortedArray = Object.keys(data).sort(
                 (firstKey, secondKey) => {
                     const first = data[firstKey][groupName];
@@ -107,8 +109,12 @@ export default function (state = initialState, action) {
                             ? second[contextYear]
                             : 0
                         : null;
-
-                    return direction === 'asc' ? a - b : b - a;
+                    
+                    if (groupName === prevGroupName) {
+                        return direction === 'asc' ? a - b : b - a;
+                    } else {
+                        return  b - a;
+                    }
                 }
             );
             const newData = {};
