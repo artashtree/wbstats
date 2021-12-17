@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setYear, fetchData } from '../actions';
-import logo from './logo-wb.svg';
-import './Header.css';
+import logo from '../imgs/logo-wb.svg';
 
 class Header extends React.Component {
     handleYearChange = (event) => {
@@ -18,18 +17,21 @@ class Header extends React.Component {
 
     render() {
         const { contextYear } = this.props;
-        
+
         return (
             <header>
-                <form className='form'>
-                    <a href='https://www.worldbank.org/'>
+                <form className='p-2 d-flex justify-content-between'>
+                    <a
+                        href='https://www.worldbank.org/'
+                        target='_blank'
+                        rel='noopener noreferrer'>
                         <img src={logo} alt='WB Logo' />
                     </a>
-                    <label className='form__label'>
+                    <label className='p-2'>
                         Show year:
                         <input
                             type='number'
-                            className='form__input'
+                            className='ms-2'
                             onChange={this.handleYearChange}
                             value={contextYear}
                         />

@@ -14,8 +14,8 @@ const initialState = {
     isFailed: false,
     itemsCount: 300,
     sorting: {
-        direction: 'desc',
-        groupName: 'population',
+        direction: '',
+        groupName: '',
     },
     data: {},
 };

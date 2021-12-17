@@ -4,7 +4,6 @@ import TableHead from './TableHead';
 import TableBody from './TableBody';
 import Preloader from './Preloader';
 import { setData, fetchData } from '../actions';
-import './Table.css';
 
 class Table extends React.Component {
     componentDidMount() {
@@ -25,14 +24,18 @@ class Table extends React.Component {
 
         if (isFailed) {
             return (
-                <div className='error-message'>
-                    <p>The request has failed...</p>
+                <div className='d-flex justify-content-center'>
+                    <div
+                        className='alert alert-danger d-flex align-items-center w-25 mt-5'
+                        role='alert'>
+                        <div>The request has failed...</div>
+                    </div>
                 </div>
             );
         }
 
         return (
-            <table className='table'>
+            <table className='table table-dark table-striped'>
                 <TableHead />
                 <TableBody />
             </table>
