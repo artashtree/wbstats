@@ -31,6 +31,13 @@ class TableBody extends React.Component {
         }
     };
 
+    decodeHtmlEntities(encoded) {
+        const elem = document.createElement('textarea');
+        elem.innerHTML = encoded;
+
+        return elem.value;
+    }
+
     render() {
         const { data, contextYear } = this.props;
 
@@ -68,7 +75,7 @@ class TableBody extends React.Component {
                                 onKeyPress={(e) =>
                                     this.handleRowFocus(e, item)
                                 }>
-                                {name}
+                                {this.decodeHtmlEntities(name)}
                             </Link>
                         </td>
                         <td>{population ? population : 'no data'}</td>
