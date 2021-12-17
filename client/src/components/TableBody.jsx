@@ -63,7 +63,7 @@ class TableBody extends React.Component {
 
             return (
                 <React.Fragment key={itemKey}>
-                    <tr>
+                    <tr className='table-row table-row--record'>
                         <td>{rowCounter++}</td>
                         <td>
                             <Link

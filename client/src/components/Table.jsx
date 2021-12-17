@@ -26,7 +26,7 @@ class Table extends React.Component {
             return (
                 <div className='d-flex justify-content-center'>
                     <div
-                        className='alert alert-danger d-flex align-items-center w-25 mt-5'
+                        className='alert alert-danger d-flex align-items-center justify-content-center w-25 mt-5'
                         role='alert'>
                         <div>The request has failed...</div>
                     </div>
