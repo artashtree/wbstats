@@ -1,5 +1,5 @@
 {
-  "name": "UkrZen",
-  "description": "App calculates mean currency values in realtime through finance.ua api",
-  "repository": "https://github.com/ayasenko/ukrzen"
+  "name": "WB Stats",
+  "description": "App that shows World Bank statistics",
+  "repository": "https://github.com/ayasenko/wbstats"
 }
