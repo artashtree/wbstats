@@ -26,7 +26,7 @@ class TableHead extends React.Component {
                     <th></th>
                     <th>
                         <button
-                            className='btn btn-light'
+                            className='btn btn-light d-flex align-items-center'
                             type='button'
                             data-group-name={groups.p}
                             onClick={this.sortByGroup}>
@@ -44,7 +44,7 @@ class TableHead extends React.Component {
                     </th>
                     <th>
                         <button
-                            className='btn btn-light'
+                            className='btn btn-light d-flex align-items-center'
                             type='button'
                             data-group-name={groups.gdp}
                             onClick={this.sortByGroup}>
@@ -62,7 +62,7 @@ class TableHead extends React.Component {
                     </th>
                     <th>
                         <button
-                            className='btn btn-light'
+                            className='btn btn-light d-flex align-items-center'
                             type='button'
                             data-group-name={groups.gdpc}
                             onClick={this.sortByGroup}>
