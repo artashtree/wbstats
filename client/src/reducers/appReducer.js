@@ -108,7 +108,7 @@ export default function (state = initialState, action) {
                             : 0
                         : null;
 
-                    return direction === 'asc' ? b - a : a - b;
+                    return direction === 'asc' ? a - b : b - a;
                 }
             );
             const newData = {};
