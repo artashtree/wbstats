@@ -27,11 +27,11 @@ class Header extends React.Component {
                         rel='noopener noreferrer'>
                         <img src={logo} alt='WB Logo' />
                     </a>
-                    <div class='input-group w-25'>
-                        <div class='input-group-prepend'>
+                    <div className='input-group w-25'>
+                        <div className='input-group-prepend'>
                             <label
                                 htmlFor='yearInput'
-                                class='input-group-text'
+                                className='input-group-text'
                                 id='basic-addon1'>
                                 Year:
                             </label>
