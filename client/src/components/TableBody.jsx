@@ -56,7 +56,7 @@ class TableBody extends React.Component {
 
             return (
                 <React.Fragment key={itemKey}>
-                    <tr className='table-row table-row--record'>
+                    <tr>
                         <td>{rowCounter++}</td>
                         <td>
                             <Link
@@ -87,28 +87,26 @@ class TableBody extends React.Component {
                                 : 'table-row--collapsed'
                         }`}>
                         <td colSpan={5}>
-                            <div className='more-info-block'>
-                                <p>{extract}</p>
-                                <p>
-                                    <strong>
-                                        Read more about &nbsp;
-                                        <a
-                                            href={`https://en.wikipedia.org/wiki/${name}`}
-                                            tabIndex={expanded ? 0 : -1}
-                                            target='_blank'
-                                            rel='noopener noreferrer'>
-                                            {name}
-                                        </a>
-                                    </strong>
-                                </p>
-                            </div>
+                            <p>{extract}</p>
+                            <p>
+                                <span>
+                                    Read more about &nbsp;
+                                    <a
+                                        href={`https://en.wikipedia.org/wiki/${name}`}
+                                        tabIndex={expanded ? 0 : -1}
+                                        target='_blank'
+                                        rel='noopener noreferrer'>
+                                        {name}
+                                    </a>
+                                </span>
+                            </p>
                         </td>
                     </tr>
                 </React.Fragment>
             );
         });
 
-        return <tbody className='table-body'>{tableRows}</tbody>;
+        return <tbody>{tableRows}</tbody>;
     }
 }
 

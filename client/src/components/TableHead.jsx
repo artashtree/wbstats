@@ -12,7 +12,7 @@ class TableHead extends React.Component {
     sortByGroup = (event) => {
         event.preventDefault();
         const { groupName } = event.target.dataset;
-        
+
         this.props.sortByGroup({ groupName });
     };
 
@@ -26,47 +26,56 @@ class TableHead extends React.Component {
                     <th></th>
                     <th>
                         <button
+                            className='btn btn-light'
+                            type='button'
                             data-group-name={groups.p}
                             onClick={this.sortByGroup}>
                             Population
                             <i
-                                className={
+                                className={` ms-1
+                                ${
                                     groupName === groups.p
                                         ? direction === 'asc'
-                                            ? 'icon-circle-up'
-                                            : 'icon-circle-down'
-                                        : 'icon-circle-up'
-                                }></i>
+                                            ? 'icon-circle-down'
+                                            : 'icon-circle-up'
+                                        : 'icon-circle-right'
+                                }`}></i>
                         </button>
                     </th>
                     <th>
                         <button
+                            className='btn btn-light'
+                            type='button'
                             data-group-name={groups.gdp}
                             onClick={this.sortByGroup}>
                             Economy
                             <i
-                                className={
+                                className={` ms-1
+                                ${
                                     groupName === groups.gdp
                                         ? direction === 'asc'
-                                            ? 'icon-circle-up'
-                                            : 'icon-circle-down'
-                                        : 'icon-circle-up'
-                                }></i>
+                                            ? 'icon-circle-down'
+                                            : 'icon-circle-up'
+                                        : 'icon-circle-right'
+                                }`}></i>
                         </button>
                     </th>
                     <th>
                         <button
+                            className='btn btn-light'
+                            type='button'
                             data-group-name={groups.gdpc}
                             onClick={this.sortByGroup}>
                             GDP per capita
                             <i
-                                className={
-                                    groupName === groups.gdpc
-                                        ? direction === 'asc'
-                                            ? 'icon-circle-up'
-                                            : 'icon-circle-down'
-                                        : 'icon-circle-up'
-                                }></i>
+                                className={` ms-1
+                                    ${
+                                        groupName === groups.gdpc
+                                            ? direction === 'asc'
+                                                ? 'icon-circle-down'
+                                                : 'icon-circle-up'
+                                            : 'icon-circle-right'
+                                    }`}></i>
                         </button>
                     </th>
                 </tr>
