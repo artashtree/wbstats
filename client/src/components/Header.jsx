@@ -27,15 +27,25 @@ class Header extends React.Component {
                         rel='noopener noreferrer'>
                         <img src={logo} alt='WB Logo' />
                     </a>
-                    <label className='p-2'>
-                        Show year:
+                    <div class='input-group w-25'>
+                        <div class='input-group-prepend'>
+                            <label
+                                htmlFor='yearInput'
+                                class='input-group-text'
+                                id='basic-addon1'>
+                                Year:
+                            </label>
+                        </div>
                         <input
-                            type='number'
-                            className='ms-2'
+                            id='yearInput'
                             onChange={this.handleYearChange}
                             value={contextYear}
+                            type='number'
+                            className='form-control'
+                            ariaLabel='Username'
+                            ariaDescribedBy='basic-addon1'
                         />
-                    </label>
+                    </div>
                 </form>
             </header>
         );
