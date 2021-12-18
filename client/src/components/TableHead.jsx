@@ -36,8 +36,8 @@ class TableHead extends React.Component {
                                 ${
                                     groupName === groups.p
                                         ? direction === 'asc'
-                                            ? 'icon-circle-down'
-                                            : 'icon-circle-up'
+                                            ? 'icon-circle-up'
+                                            : 'icon-circle-down'
                                         : 'icon-circle-right'
                                 }`}></i>
                         </button>
@@ -54,8 +54,8 @@ class TableHead extends React.Component {
                                 ${
                                     groupName === groups.gdp
                                         ? direction === 'asc'
-                                            ? 'icon-circle-down'
-                                            : 'icon-circle-up'
+                                            ? 'icon-circle-up'
+                                            : 'icon-circle-down'
                                         : 'icon-circle-right'
                                 }`}></i>
                         </button>
@@ -72,8 +72,8 @@ class TableHead extends React.Component {
                                     ${
                                         groupName === groups.gdpc
                                             ? direction === 'asc'
-                                                ? 'icon-circle-down'
-                                                : 'icon-circle-up'
+                                                ? 'icon-circle-up'
+                                                : 'icon-circle-down'
                                             : 'icon-circle-right'
                                     }`}></i>
                         </button>
