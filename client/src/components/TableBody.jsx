@@ -122,11 +122,11 @@ class TableBody extends React.Component {
                                 <span>
                                     Read more about &nbsp;
                                     <a
-                                        href={`https://en.wikipedia.org/wiki/${name}`}
+                                        href={`https://en.wikipedia.org/wiki/${this.decodeHtmlEntities(name)}`}
                                         tabIndex={expanded ? 0 : -1}
                                         target='_blank'
                                         rel='noopener noreferrer'>
-                                        {name}
+                                        {this.decodeHtmlEntities(name)}
                                     </a>
                                 </span>
                             </p>
