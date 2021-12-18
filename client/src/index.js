@@ -8,7 +8,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './components/App';
 import rootReducer from './reducers';
-import './style.css';
 
 const middleware = [thunk, logger];
 
