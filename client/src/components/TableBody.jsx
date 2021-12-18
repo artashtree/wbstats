@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { expandRecord, fetchWikiData, collapseRecords } from '../actions';
+import { toggleExpandRecord, fetchWikiData, collapseRecords } from '../actions';
 import { Link, withRouter } from 'react-router-dom';
 
 class TableBody extends React.Component {
@@ -153,5 +153,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, { expandRecord, fetchWikiData, collapseRecords })
+    connect(mapStateToProps, { toggleExpandRecord, fetchWikiData, collapseRecords })
 )(TableBody);

@@ -1,11 +1,10 @@
 import {
-    SET_DATA,
-    EXPAND_RECORD,
+    TOGGLE_EXPAND_RECORD,
     SORT_BY_GROUP,
-    SET_YEAR,
-    FETCH_DATA,
-    FETCH_DATA_SUCCESS,
-    FETCH_DATA_FAILURE,
+    SET_CONTEXT_YEAR,
+    FETCH_WB_DATA,
+    FETCH_WB_DATA_SUCCESS,
+    FETCH_WB_DATA_FAILURE,
     FETCH_WIKI_DATA,
     FETCH_WIKI_DATA_SUCCESS,
     FETCH_WIKI_DATA_FAILURE,
@@ -14,40 +13,26 @@ import {
 import { getData, getWikiExtract } from '../helpers';
 import { wikiApi } from '../api';
 
-export const fetchData = (content) => {
+export const fetchWBData = (content) => {
     return (dispatch) => {
-        dispatch({ type: FETCH_DATA });
+        dispatch({ type: FETCH_WB_DATA });
 
         getData(content.year, content.itemsCount)
             .then((data) => {
                 dispatch({
-                    type: FETCH_DATA_SUCCESS,
+                    type: FETCH_WB_DATA_SUCCESS,
                     payload: data,
                 });
             })
             .catch((error) => {
                 console.error(error);
-                dispatch({ type: FETCH_DATA_FAILURE });
+                dispatch({ type: FETCH_WB_DATA_FAILURE });
             });
     };
 };
 
-export const fetchDataSuccess = (content) => ({
-    type: FETCH_DATA_SUCCESS,
-    payload: content.data,
-});
-
-export const fetchDataFailure = (content) => ({
-    type: FETCH_DATA_FAILURE,
-});
-
-export const setData = (content) => ({
-    type: SET_DATA,
-    payload: content.data,
-});
-
-export const expandRecord = (content) => ({
-    type: EXPAND_RECORD,
+export const toggleExpandRecord = (content) => ({
+    type: TOGGLE_EXPAND_RECORD,
     payload: {
         targetKey: content.targetKey,
         response: content.response,
@@ -61,8 +46,8 @@ export const sortByGroup = (content) => ({
     },
 });
 
-export const setYear = (content) => ({
-    type: SET_YEAR,
+export const setContextYear = (content) => ({
+    type: SET_CONTEXT_YEAR,
     payload: {
         contextYear: content.contextYear,
     },
@@ -78,7 +63,7 @@ export const fetchWikiData = (content) => {
             .then((response) => {
                 dispatch({ type: FETCH_WIKI_DATA_SUCCESS });
                 dispatch({
-                    type: EXPAND_RECORD,
+                    type: TOGGLE_EXPAND_RECORD,
                     payload: {
                         targetKey: key,
                         response: getWikiExtract(response),
