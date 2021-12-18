@@ -110,11 +110,7 @@ export default function (state = initialState, action) {
                             : 0
                         : null;
                     
-                    if (groupName === prevGroupName) {
-                        return direction === 'asc' ? a - b : b - a;
-                    } else {
-                        return  b - a;
-                    }
+                    return direction === 'asc' ? a - b : b - a;
                 }
             );
             const newData = {};
