@@ -27,10 +27,12 @@ class TableBody extends React.Component {
 
         history.listen((location, action) => {
             itemKey = location.pathname.slice(3).toUpperCase();
-            if (!itemKey) {
-                this.props.collapseRecords();
-            } else if (data[itemKey] && action === 'POP') {
-                this.handleRowFocus(null, data[itemKey]);
+            if (action === 'POP') {
+                if (location.pathname === '/') {
+                    this.props.collapseRecords();
+                } else if (data[itemKey]) {
+                    this.handleRowFocus(null, data[itemKey]);
+                }
             }
         });
     }
@@ -52,6 +54,7 @@ class TableBody extends React.Component {
 
     render() {
         const { data, contextYear } = this.props;
+        const { noDataMessage } = 'no data';
 
         if (!data) {
             return null;
@@ -93,17 +96,17 @@ class TableBody extends React.Component {
                         <td>
                             {population
                                 ? this.numberFormatter.format(population)
-                                : 'no data'}
+                                : noDataMessage}
                         </td>
                         <td>
                             {gdp
                                 ? `${this.currencyFormatter.format(gdp)}`
-                                : 'no data'}
+                                : noDataMessage}
                         </td>
                         <td>
                             {gdpCapita
                                 ? `${this.currencyFormatter.format(gdpCapita)}`
-                                : 'no data'}
+                                : noDataMessage}
                         </td>
                     </tr>
                     <tr
