@@ -81,10 +81,11 @@ class TableBody extends React.Component {
 
             return (
                 <React.Fragment key={itemKey}>
-                    <tr className='table-row table-row--record'>
+                    <tr>
                         <td>{rowCounter++}</td>
                         <td>
                             <Link
+                                className='text-white'
                                 to={{
                                     pathname: `/r/${itemKey.toLocaleLowerCase()}`,
                                     name,
@@ -114,11 +115,7 @@ class TableBody extends React.Component {
                     </tr>
                     <tr
                         tabIndex={expanded ? 0 : -1}
-                        className={`table-row ${
-                            expanded
-                                ? 'table-row--expanded'
-                                : 'table-row--collapsed'
-                        }`}>
+                        style={expanded ? null : { display: 'none' }}>
                         <td colSpan={5}>
                             <p>{extract}</p>
                             <p>
@@ -128,6 +125,7 @@ class TableBody extends React.Component {
                                         href={`https://en.wikipedia.org/wiki/${this.decodeHtmlEntities(
                                             name
                                         )}`}
+                                        className='text-white'
                                         tabIndex={expanded ? 0 : -1}
                                         target='_blank'
                                         rel='noopener noreferrer'>
@@ -153,5 +151,9 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, { toggleExpandRecord, fetchWikiData, collapseRecords })
+    connect(mapStateToProps, {
+        toggleExpandRecord,
+        fetchWikiData,
+        collapseRecords,
+    })
 )(TableBody);
