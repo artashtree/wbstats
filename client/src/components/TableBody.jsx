@@ -54,7 +54,6 @@ class TableBody extends React.Component {
 
     render() {
         const { data, contextYear } = this.props;
-        const { noDataMessage } = 'no data';
 
         if (!data) {
             return null;
