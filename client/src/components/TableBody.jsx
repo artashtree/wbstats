@@ -28,7 +28,7 @@ class TableBody extends React.Component {
         history.listen((location, action) => {
             itemKey = location.pathname.slice(3).toUpperCase();
             if (action === 'POP') {
-                if (location.pathname === '/') {
+                if (location.pathname === '/' || location.pathname === '/r/') {
                     this.props.collapseRecords();
                 } else if (data[itemKey]) {
                     this.handleRowFocus(null, data[itemKey]);
@@ -83,7 +83,7 @@ class TableBody extends React.Component {
                         <td>
                             <Link
                                 to={{
-                                    pathname: `/e/${itemKey.toLocaleLowerCase()}`,
+                                    pathname: `/r/${itemKey.toLocaleLowerCase()}`,
                                     name,
                                 }}
                                 onClick={() => this.handleRowFocus(null, item)}
@@ -96,17 +96,17 @@ class TableBody extends React.Component {
                         <td>
                             {population
                                 ? this.numberFormatter.format(population)
-                                : noDataMessage}
+                                : '-'}
                         </td>
                         <td>
                             {gdp
                                 ? `${this.currencyFormatter.format(gdp)}`
-                                : noDataMessage}
+                                : '-'}
                         </td>
                         <td>
                             {gdpCapita
                                 ? `${this.currencyFormatter.format(gdpCapita)}`
-                                : noDataMessage}
+                                : '-'}
                         </td>
                     </tr>
                     <tr
