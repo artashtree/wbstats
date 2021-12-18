@@ -9,7 +9,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    contextYear: '2018',
+    contextYear: '2020',
     isFetching: false,
     isFailed: false,
     itemsCount: 300,
