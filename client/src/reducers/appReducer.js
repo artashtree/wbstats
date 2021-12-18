@@ -110,7 +110,11 @@ export default function (state = initialState, action) {
                             : 0
                         : null;
                     
-                    return direction === 'asc' ? a - b : b - a;
+                    if (groupName === prevGroupName && prevGroupName !== '') {
+                        return direction === 'asc' ? b - a : a - b;
+                    } else {
+                        return b - a;
+                    }
                 }
             );
             const newData = {};
@@ -118,11 +122,18 @@ export default function (state = initialState, action) {
                 (itemKey) => (newData[itemKey] = data[itemKey])
             );
 
+            let newDirection;
+            if (groupName === prevGroupName && prevGroupName !== '') {
+                newDirection = direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                newDirection = 'desc';
+            }
+            
             return {
                 ...state,
                 data: newData,
                 sorting: {
-                    direction: direction === 'asc' ? 'desc' : 'asc',
+                    direction: newDirection,
                     groupName,
                 },
             };
