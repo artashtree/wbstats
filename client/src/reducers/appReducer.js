@@ -1,11 +1,11 @@
 import {
-    FETCH_DATA,
-    FETCH_DATA_SUCCESS,
-    FETCH_DATA_FAILURE,
-    EXPAND_RECORD,
+    FETCH_WB_DATA,
+    FETCH_WB_DATA_SUCCESS,
+    FETCH_WB_DATA_FAILURE,
+    TOGGLE_EXPAND_RECORD,
     COLLAPSE_RECORDS,
     SORT_BY_GROUP,
-    SET_YEAR,
+    SET_CONTEXT_YEAR,
 } from '../actions/types';
 
 const initialState = {
@@ -22,14 +22,14 @@ const initialState = {
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case FETCH_DATA: {
+        case FETCH_WB_DATA: {
             return {
                 ...state,
                 isFetching: true,
             };
         }
 
-        case FETCH_DATA_SUCCESS: {
+        case FETCH_WB_DATA_SUCCESS: {
             return {
                 ...state,
                 data: action.payload,
@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case FETCH_DATA_FAILURE: {
+        case FETCH_WB_DATA_FAILURE: {
             return {
                 ...state,
                 isFetching: false,
@@ -54,7 +54,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case EXPAND_RECORD: {
+        case TOGGLE_EXPAND_RECORD: {
             const { data } = state;
             const { targetKey, response } = action.payload;
             const newData = {};
@@ -138,7 +138,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case SET_YEAR: {
+        case SET_CONTEXT_YEAR: {
             const { contextYear } = action.payload;
 
             return {

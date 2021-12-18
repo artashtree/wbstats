@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import TableHead from './TableHead';
 import TableBody from './TableBody';
 import Preloader from './Preloader';
-import { setData, fetchData } from '../actions';
-
+import { fetchWBData } from '../actions';
 class Table extends React.Component {
     componentDidMount() {
         const { contextYear, itemsCount } = this.props;
 
-        this.props.fetchData({
+        this.props.fetchWBData({
             year: contextYear,
             itemsCount,
         });
@@ -69,4 +68,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { setData, fetchData })(Table);
+export default connect(mapStateToProps, { fetchWBData })(Table);

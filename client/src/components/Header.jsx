@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setYear, fetchData } from '../actions';
+import { setContextYear, fetchWBData } from '../actions';
 import logo from '../imgs/logo-wb.svg';
 
 class Header extends React.Component {
@@ -8,11 +8,11 @@ class Header extends React.Component {
         const contextYear = event.target.value;
         const { itemsCount } = this.props;
 
-        this.props.fetchData({
+        this.props.fetchWBData({
             year: contextYear,
             itemsCount,
         });
-        this.props.setYear({ contextYear });
+        this.props.setContextYear({ contextYear });
     };
 
     render() {
@@ -61,4 +61,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { setYear, fetchData })(Header);
+export default connect(mapStateToProps, { setContextYear, fetchWBData })(Header);
