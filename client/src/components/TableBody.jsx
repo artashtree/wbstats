@@ -25,7 +25,7 @@ class TableBody extends React.Component {
             this.handleRowFocus(null, data[itemKey]);
         }
 
-        history.listen((location, action) => {
+        this.unregisterHistoryListener = history.listen((location, action) => {
             itemKey = location.pathname.slice(3).toUpperCase();
             if (action === 'POP') {
                 if (location.pathname === '/' || location.pathname === '/r/') {
@@ -35,6 +35,10 @@ class TableBody extends React.Component {
                 }
             }
         });
+    }
+
+    componentWillUnmount() {
+        this.unregisterHistoryListener();
     }
 
     handleRowFocus = (event, target) => {
@@ -121,7 +125,9 @@ class TableBody extends React.Component {
                                 <span>
                                     Read more about &nbsp;
                                     <a
-                                        href={`https://en.wikipedia.org/wiki/${this.decodeHtmlEntities(name)}`}
+                                        href={`https://en.wikipedia.org/wiki/${this.decodeHtmlEntities(
+                                            name
+                                        )}`}
                                         tabIndex={expanded ? 0 : -1}
                                         target='_blank'
                                         rel='noopener noreferrer'>
