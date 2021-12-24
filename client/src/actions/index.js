@@ -9,6 +9,7 @@ import {
     FETCH_WIKI_DATA_SUCCESS,
     FETCH_WIKI_DATA_FAILURE,
     COLLAPSE_RECORDS,
+    SET_SEARCH_TERM,
 } from './types';
 import { getData, getWikiExtract } from '../helpers';
 import { wikiApi } from '../api';
@@ -79,4 +80,11 @@ export const fetchWikiData = (content) => {
 
 export const collapseRecords = () => ({
     type: COLLAPSE_RECORDS,
+});
+
+export const setSearchTerm = (searchTerm) => ({
+    type: SET_SEARCH_TERM,
+    payload: {
+        searchTerm,
+    },
 });

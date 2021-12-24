@@ -6,9 +6,12 @@ import {
     COLLAPSE_RECORDS,
     SORT_BY_GROUP,
     SET_CONTEXT_YEAR,
+    SET_SEARCH_TERM,
 } from '../actions/types';
+import { getSortedRecords } from '../helpers';
 
 const initialState = {
+    searchTerm: '',
     contextYear: '2020',
     isFetching: false,
     isFailed: false,
@@ -17,7 +20,8 @@ const initialState = {
         direction: '',
         groupName: '',
     },
-    data: {},
+    records: {},
+    filteredRecords: {},
 };
 
 export default function (state = initialState, action) {
@@ -30,9 +34,24 @@ export default function (state = initialState, action) {
         }
 
         case FETCH_WB_DATA_SUCCESS: {
+            const { searchTerm } = state;
+            const records = action.payload;
+            const filteredRecords = {};
+
+            if (searchTerm !== '') {
+                for (let key in records) {
+                    const recordName = records[key].name.toLowerCase();
+
+                    if (recordName.includes(searchTerm.toLowerCase())) {
+                        filteredRecords[key] = records[key];
+                    }
+                }
+            }
+
             return {
                 ...state,
-                data: action.payload,
+                records,
+                filteredRecords,
                 isFetching: false,
                 isFailed: false,
                 sorting: {
@@ -55,71 +74,59 @@ export default function (state = initialState, action) {
         }
 
         case TOGGLE_EXPAND_RECORD: {
-            const { data } = state;
+            const { records } = state;
             const { targetKey, response } = action.payload;
-            const newData = {};
+            const newRecords = {};
 
-            Object.keys(data).map((itemKey) => {
-                const item = data[itemKey];
+            Object.keys(records).map((itemKey) => {
+                const item = records[itemKey];
                 item.expanded =
                     item.key === targetKey && !item.expanded ? true : false;
                 item.extract = item.key === targetKey ? response.extract : '';
-                newData[itemKey] = item;
+                newRecords[itemKey] = item;
             });
 
             return {
                 ...state,
-                data: newData,
+                records: newRecords,
             };
         }
 
         case COLLAPSE_RECORDS: {
-            const { data } = state;
-            const newData = {};
+            const { records } = state;
+            const newRecords = {};
 
-            Object.keys(data).map((itemKey) => {
-                const item = data[itemKey];
+            Object.keys(records).map((itemKey) => {
+                const item = records[itemKey];
                 item.expanded = false;
-                newData[itemKey] = item;
+                newRecords[itemKey] = item;
             });
 
             return {
                 ...state,
-                data: newData,
+                records: newRecords,
             };
         }
 
         case SORT_BY_GROUP: {
-            const { data, contextYear, sorting } = state;
+            const { records, filteredRecords, contextYear, sorting } = state;
             const { direction, groupName: prevGroupName } = sorting;
             const { groupName } = action.payload;
 
-            const sortedArray = Object.keys(data).sort(
-                (firstKey, secondKey) => {
-                    const first = data[firstKey][groupName];
-                    const second = data[secondKey][groupName];
-                    const a = first
-                        ? first[contextYear]
-                            ? first[contextYear]
-                            : 0
-                        : null;
-                    const b = second
-                        ? second[contextYear]
-                            ? second[contextYear]
-                            : 0
-                        : null;
-
-                    if (groupName === prevGroupName && prevGroupName !== '') {
-                        return direction === 'asc' ? b - a : a - b;
-                    } else {
-                        return b - a;
-                    }
-                }
-            );
-            const newData = {};
-            sortedArray.forEach(
-                (itemKey) => (newData[itemKey] = data[itemKey])
-            );
+            const newRecords = getSortedRecords({
+                records,
+                contextYear,
+                groupName,
+                prevGroupName,
+                direction,
+            });
+            const newFilteredRecords = getSortedRecords({
+                records: filteredRecords,
+                contextYear,
+                groupName,
+                prevGroupName,
+                direction,
+            });
 
             let newDirection;
             if (groupName === prevGroupName && prevGroupName !== '') {
@@ -130,7 +137,8 @@ export default function (state = initialState, action) {
 
             return {
                 ...state,
-                data: newData,
+                records: newRecords,
+                filteredRecords: newFilteredRecords,
                 sorting: {
                     direction: newDirection,
                     groupName,
@@ -144,6 +152,26 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 contextYear,
+            };
+        }
+
+        case SET_SEARCH_TERM: {
+            const { searchTerm } = action.payload;
+            const { records } = state;
+            const filteredRecords = {};
+
+            for (let key in records) {
+                const recordName = records[key].name.toLowerCase();
+
+                if (recordName.includes(searchTerm.toLowerCase())) {
+                    filteredRecords[key] = records[key];
+                }
+            }
+
+            return {
+                ...state,
+                searchTerm,
+                filteredRecords,
             };
         }
 

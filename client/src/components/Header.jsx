@@ -19,7 +19,7 @@ class Header extends React.Component {
         const { contextYear } = this.props;
 
         return (
-            <header>
+            <header className='bg-white'>
                 <form className='p-2 d-flex justify-content-between'>
                     <a
                         href='https://www.worldbank.org/'

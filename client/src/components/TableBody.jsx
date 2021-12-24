@@ -18,11 +18,11 @@ class TableBody extends React.Component {
     }
 
     componentDidMount() {
-        const { history, data } = this.props;
+        const { history, records } = this.props;
         let itemKey = history.location.pathname.slice(3).toUpperCase();
 
-        if (itemKey && data[itemKey]) {
-            this.handleRowFocus(null, data[itemKey]);
+        if (itemKey && records[itemKey]) {
+            this.handleRowFocus(null, records[itemKey]);
         }
 
         this.unregisterHistoryListener = history.listen((location, action) => {
@@ -30,8 +30,8 @@ class TableBody extends React.Component {
             if (action === 'POP') {
                 if (location.pathname === '/' || location.pathname === '/r/') {
                     this.props.collapseRecords();
-                } else if (data[itemKey]) {
-                    this.handleRowFocus(null, data[itemKey]);
+                } else if (records[itemKey]) {
+                    this.handleRowFocus(null, records[itemKey]);
                 }
             }
         });
@@ -57,15 +57,17 @@ class TableBody extends React.Component {
     }
 
     render() {
-        const { data, contextYear } = this.props;
+        const { records, contextYear, filteredRecords, searchTerm } = this.props;
 
-        if (!data) {
+        if (!records) {
             return null;
         }
 
         let rowCounter = 1;
+        const data = searchTerm === '' ? records : filteredRecords;
+        
         const tableRows = Object.keys(data).map((itemKey) => {
-            const item = data[itemKey];
+            const item = records[itemKey];
             const population =
                 item.population && item.population[contextYear]
                     ? item.population[contextYear]
@@ -144,9 +146,10 @@ class TableBody extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { data, contextYear, sorting } = state.appReducer;
+    const { records, contextYear, sorting, filteredRecords, searchTerm } =
+        state.appReducer;
 
-    return { data, contextYear, sorting };
+    return { records, contextYear, sorting, filteredRecords, searchTerm };
 };
 
 export default compose(
