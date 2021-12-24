@@ -42,8 +42,8 @@ class Header extends React.Component {
                             value={contextYear}
                             type='number'
                             className='form-control'
-                            ariaLabel='Username'
-                            ariaDescribedBy='basic-addon1'
+                            aria-label='Username'
+                            aria-describedby='basic-addon1'
                         />
                     </div>
                 </form>
