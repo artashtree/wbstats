@@ -101,3 +101,35 @@ export const getWikiExtract = (response) => {
         return pages[key];
     }
 };
+
+export const getSortedRecords = ({ records, contextYear, groupName, prevGroupName, direction }) => {
+    const sortedArray = Object.keys(records).sort(
+        (firstKey, secondKey) => {
+            const first = records[firstKey][groupName];
+            const second = records[secondKey][groupName];
+            const a = first
+                ? first[contextYear]
+                    ? first[contextYear]
+                    : 0
+                : null;
+            const b = second
+                ? second[contextYear]
+                    ? second[contextYear]
+                    : 0
+                : null;
+
+            if (groupName === prevGroupName && prevGroupName !== '') {
+                return direction === 'asc' ? b - a : a - b;
+            } else {
+                return b - a;
+            }
+        }
+    );
+
+    const newRecords = {};
+    sortedArray.forEach(
+        (itemKey) => (newRecords[itemKey] = records[itemKey])
+    );
+
+    return newRecords;
+};

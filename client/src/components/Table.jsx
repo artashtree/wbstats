@@ -15,8 +15,8 @@ class Table extends React.Component {
     }
 
     render() {
-        const { isFetching, isFailed, data } = this.props;
-        const isNoData = Object.keys(data).length === 0;
+        const { isFetching, isFailed, records } = this.props;
+        const isNoData = Object.keys(records).length === 0;
 
         if (isFetching) {
             return <Preloader />;
@@ -56,7 +56,7 @@ class Table extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { contextYear, isFetching, isFailed, itemsCount, data } =
+    const { contextYear, isFetching, isFailed, itemsCount, records } =
         state.appReducer;
 
     return {
@@ -64,7 +64,7 @@ const mapStateToProps = (state) => {
         isFetching,
         isFailed,
         itemsCount,
-        data,
+        records,
     };
 };
 

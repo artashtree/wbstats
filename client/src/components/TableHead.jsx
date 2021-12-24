@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sortByGroup } from '../actions';
+import { sortByGroup, setSearchTerm } from '../actions';
 
 const groups = {
     p: 'population',
@@ -16,14 +16,41 @@ class TableHead extends React.Component {
         this.props.sortByGroup({ groupName });
     };
 
+    handleSearchChange = (event) => {
+        event.preventDefault();
+        const value = event.target.value;
+
+        this.props.setSearchTerm(value);
+    };
+
     render() {
         const { direction, groupName } = this.props.sorting;
+        const { searchTerm } = this.props;
 
         return (
             <thead className='table-head'>
                 <tr className='table-row'>
-                    <th></th>
-                    <th></th>
+                    <th colSpan={2}>
+                        <div className='input-group w-50'>
+                            <div className='input-group-prepend'>
+                                <label
+                                    htmlFor='searchInput'
+                                    className='input-group-text'
+                                    id='basic-addon2'>
+                                    Search:
+                                </label>
+                            </div>
+                            <input
+                                id='searchInput'
+                                onChange={this.handleSearchChange}
+                                value={searchTerm}
+                                type='text'
+                                className='form-control'
+                                aria-label='Search'
+                                aria-describedby='basic-addon2'
+                            />
+                        </div>
+                    </th>
                     <th>
                         <button
                             className='btn btn-light d-flex align-items-center'
@@ -85,9 +112,11 @@ class TableHead extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { sorting } = state.appReducer;
+    const { sorting, searchTerm } = state.appReducer;
 
-    return { sorting };
+    return { sorting, searchTerm };
 };
 
-export default connect(mapStateToProps, { sortByGroup })(TableHead);
+export default connect(mapStateToProps, { sortByGroup, setSearchTerm })(
+    TableHead
+);

@@ -19,7 +19,7 @@ class Header extends React.Component {
         const { contextYear } = this.props;
 
         return (
-            <header>
+            <header className='bg-white'>
                 <form className='p-2 d-flex justify-content-between'>
                     <a
                         href='https://www.worldbank.org/'
@@ -42,8 +42,8 @@ class Header extends React.Component {
                             value={contextYear}
                             type='number'
                             className='form-control'
-                            ariaLabel='Username'
-                            ariaDescribedBy='basic-addon1'
+                            aria-label='Username'
+                            aria-describedby='basic-addon1'
                         />
                     </div>
                 </form>
