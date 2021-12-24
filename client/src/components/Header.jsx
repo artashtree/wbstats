@@ -61,4 +61,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { setContextYear, fetchWBData })(Header);
+export default connect(mapStateToProps, { setContextYear, fetchWBData })(
+    Header
+);

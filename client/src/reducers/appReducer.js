@@ -12,7 +12,7 @@ import { getSortedRecords } from '../helpers';
 
 const initialState = {
     searchTerm: '',
-    contextYear: '2020',
+    contextYear: '',
     isFetching: false,
     isFailed: false,
     itemsCount: 300,
