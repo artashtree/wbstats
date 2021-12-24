@@ -18,10 +18,12 @@ class TableBody extends React.Component {
     }
 
     componentDidMount() {
-        const { history, records } = this.props;
+        const { history, records, searchTerm, filteredRecords } = this.props;
         let itemKey = history.location.pathname.slice(3).toUpperCase();
 
-        if (itemKey && records[itemKey]) {
+        const data = searchTerm === '' ? records : filteredRecords;
+
+        if (itemKey && data[itemKey]) {
             this.handleRowFocus(null, records[itemKey]);
         }
 
@@ -30,8 +32,8 @@ class TableBody extends React.Component {
             if (action === 'POP') {
                 if (location.pathname === '/' || location.pathname === '/r/') {
                     this.props.collapseRecords();
-                } else if (records[itemKey]) {
-                    this.handleRowFocus(null, records[itemKey]);
+                } else if (data[itemKey]) {
+                    this.handleRowFocus(null, data[itemKey]);
                 }
             }
         });
@@ -57,7 +59,8 @@ class TableBody extends React.Component {
     }
 
     render() {
-        const { records, contextYear, filteredRecords, searchTerm } = this.props;
+        const { records, contextYear, filteredRecords, searchTerm } =
+            this.props;
 
         if (!records) {
             return null;
@@ -65,7 +68,7 @@ class TableBody extends React.Component {
 
         let rowCounter = 1;
         const data = searchTerm === '' ? records : filteredRecords;
-        
+
         const tableRows = Object.keys(data).map((itemKey) => {
             const item = records[itemKey];
             const population =
