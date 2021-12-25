@@ -93,7 +93,9 @@ class TableBody extends React.Component {
                                 className='text-white'
                                 to={{
                                     pathname: `/r/${itemKey.toLocaleLowerCase()}`,
-                                    search: `y=${contextYear}`,
+                                    search: `y=${contextYear}${
+                                        searchTerm ? `&s=${searchTerm}` : ''
+                                    }`,
                                 }}
                                 onClick={() => this.handleRowFocus(null, item)}
                                 onKeyPress={(e) =>
