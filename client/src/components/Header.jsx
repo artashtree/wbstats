@@ -34,21 +34,17 @@ class Header extends React.Component {
                     const searchString = location.search;
                     const index = searchString.search(/y=\d{4}/i);
 
-                    if (index !== -1) {
-                        const contextYear = searchString.slice(
-                            index + searchPrefixLength,
-                            index + searchPrefixLength + yearLength
-                        );
+                    const contextYear = searchString.slice(
+                        index + searchPrefixLength,
+                        index + searchPrefixLength + yearLength
+                    );
 
-                        if (contextYear !== this.props.contextYear) {
-                            this.props.setContextYear({ contextYear });
-                            this.props.fetchWBData({
-                                year: contextYear,
-                                itemsCount,
-                            });
-                        }
-                    } else {
-                        this.props.setContextYear('');
+                    if (contextYear !== this.props.contextYear) {
+                        this.props.setContextYear({ contextYear });
+                        this.props.fetchWBData({
+                            year: contextYear,
+                            itemsCount,
+                        });
                     }
                 }
             }
