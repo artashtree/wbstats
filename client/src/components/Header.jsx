@@ -60,7 +60,7 @@ class Header extends React.Component {
             itemsCount,
         });
         this.props.setContextYear({ contextYear });
-        this.props.history.push(`?y=${contextYear}`);
+        this.props.history.push({ search: `y=${contextYear}` });
     };
 
     render() {
