@@ -32,7 +32,7 @@ class Header extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const index = searchString.search(/y=\d{4}/i);
+                    const index = searchString.search(/y=\d+/i);
 
                     const contextYear = searchString.slice(
                         index + searchPrefixLength,
