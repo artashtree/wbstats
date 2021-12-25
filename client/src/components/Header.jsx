@@ -7,18 +7,24 @@ import logo from '../imgs/logo-wb.svg';
 
 class Header extends React.Component {
     componentDidMount() {
+        const yearLength = 4;
+        const searchPrefixLength = 2;
         const searchString = this.props.history.location.search;
         const { itemsCount } = this.props;
 
-        const index = searchString.search(/y=\d{4}/g);
+        const index = searchString.search(/y=\d{4}/i);
 
         if (index !== -1) {
-            const contextYear = searchString.slice(index + 2, index + 7);
+            const contextYear = searchString.slice(
+                index + searchPrefixLength,
+                index + searchPrefixLength + yearLength
+            );
 
             this.props.fetchWBData({
                 year: contextYear,
                 itemsCount,
             });
+
             this.props.setContextYear({ contextYear });
         }
 
@@ -26,12 +32,12 @@ class Header extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const index = searchString.search(/y=\d{4}/g);
+                    const index = searchString.search(/y=\d{4}/i);
 
                     if (index !== -1) {
                         const contextYear = searchString.slice(
-                            index + 2,
-                            index + 7
+                            index + searchPrefixLength,
+                            index + searchPrefixLength + yearLength
                         );
 
                         if (contextYear !== this.props.contextYear) {
@@ -60,7 +66,21 @@ class Header extends React.Component {
             itemsCount,
         });
         this.props.setContextYear({ contextYear });
-        this.props.history.push({ search: `y=${contextYear}` });
+
+        const searchString = this.props.history.location.search;
+        const index = searchString.search(/s=\w+/i);
+
+        if (index !== -1) {
+            const searchTerm = searchString.slice(
+                index + 2,
+                index + 2 + this.props.searchTerm.length
+            );
+            this.props.history.push({
+                search: `y=${contextYear}&s=${searchTerm}`,
+            });
+        } else {
+            this.props.history.push({ search: `y=${contextYear}` });
+        }
     };
 
     render() {
@@ -101,11 +121,12 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { contextYear, itemsCount } = state.appReducer;
+    const { contextYear, itemsCount, searchTerm } = state.appReducer;
 
     return {
         contextYear,
         itemsCount,
+        searchTerm,
     };
 };
 

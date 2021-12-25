@@ -1,5 +1,5 @@
 import {
-    TOGGLE_EXPAND_RECORD,
+    EXPAND_RECORD,
     SORT_BY_GROUP,
     SET_CONTEXT_YEAR,
     FETCH_WB_DATA,
@@ -32,8 +32,8 @@ export const fetchWBData = (content) => {
     };
 };
 
-export const toggleExpandRecord = (content) => ({
-    type: TOGGLE_EXPAND_RECORD,
+export const expandRecord = (content) => ({
+    type: EXPAND_RECORD,
     payload: {
         targetKey: content.targetKey,
         response: content.response,
@@ -64,7 +64,7 @@ export const fetchWikiData = (content) => {
             .then((response) => {
                 dispatch({ type: FETCH_WIKI_DATA_SUCCESS });
                 dispatch({
-                    type: TOGGLE_EXPAND_RECORD,
+                    type: EXPAND_RECORD,
                     payload: {
                         targetKey: key,
                         response: getWikiExtract(response),

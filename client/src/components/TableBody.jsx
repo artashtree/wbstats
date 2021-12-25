@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { toggleExpandRecord, fetchWikiData, collapseRecords } from '../actions';
+import { expandRecord, fetchWikiData, collapseRecords } from '../actions';
 import { Link, withRouter } from 'react-router-dom';
 
 class TableBody extends React.Component {
@@ -89,18 +89,26 @@ class TableBody extends React.Component {
                     <tr>
                         <td>{rowCounter++}</td>
                         <td>
-                            <Link
-                                className='text-white'
-                                to={{
-                                    pathname: `/r/${itemKey.toLocaleLowerCase()}`,
-                                    search: `y=${contextYear}`,
-                                }}
-                                onClick={() => this.handleRowFocus(null, item)}
-                                onKeyPress={(e) =>
-                                    this.handleRowFocus(e, item)
-                                }>
-                                {this.decodeHtmlEntities(name)}
-                            </Link>
+                            {!expanded ? (
+                                <Link
+                                    className='text-white'
+                                    to={{
+                                        pathname: `/r/${itemKey.toLocaleLowerCase()}`,
+                                        search: `y=${contextYear}${
+                                            searchTerm ? `&s=${searchTerm}` : ''
+                                        }`,
+                                    }}
+                                    onClick={() =>
+                                        this.handleRowFocus(null, item)
+                                    }
+                                    onKeyPress={(e) =>
+                                        this.handleRowFocus(e, item)
+                                    }>
+                                    {this.decodeHtmlEntities(name)}
+                                </Link>
+                            ) : (
+                                <span>{this.decodeHtmlEntities(name)}</span>
+                            )}
                         </td>
                         <td>
                             {population
@@ -158,7 +166,7 @@ const mapStateToProps = (state) => {
 export default compose(
     withRouter,
     connect(mapStateToProps, {
-        toggleExpandRecord,
+        expandRecord,
         fetchWikiData,
         collapseRecords,
     })

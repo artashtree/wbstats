@@ -1,4 +1,6 @@
 import React from 'react';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { sortByGroup, setSearchTerm } from '../actions';
 
@@ -19,9 +21,57 @@ class TableHead extends React.Component {
     handleSearchChange = (event) => {
         event.preventDefault();
         const value = event.target.value;
+        const { contextYear } = this.props;
 
         this.props.setSearchTerm(value);
+
+        if (value) {
+            this.props.history.push({ search: `y=${contextYear}&s=${value}` });
+        } else {
+            this.props.history.push({ search: `y=${contextYear}` });
+        }
     };
+
+    componentDidMount() {
+        const searchPrefixLength = 2;
+        const searchString = this.props.history.location.search;
+
+        const regex = /s=\w+/i;
+        const index = searchString.search(regex);
+
+        if (index !== -1) {
+            const match = searchString.match(regex);
+            const searchTerm = searchString.slice(
+                index + searchPrefixLength,
+                index + match[0].length
+            );
+            this.props.setSearchTerm(searchTerm);
+        }
+
+        this.unregisterHistoryListener = this.props.history.listen(
+            (location, action) => {
+                if (action === 'POP') {
+                    const searchString = location.search;
+                    const index = searchString.search(/s=\w+/i);
+
+                    if (index !== -1) {
+                        const match = searchString.match(regex);
+                        const searchTerm = searchString.slice(
+                            index + searchPrefixLength,
+                            index + match[0].length
+                        );
+                        this.props.setSearchTerm(searchTerm);
+                    } else {
+                        this.props.setSearchTerm('');
+                    }
+                }
+            }
+        );
+    }
+
+    componentWillUnmount() {
+        this.unregisterHistoryListener();
+    }
 
     render() {
         const { direction, groupName } = this.props.sorting;
@@ -112,11 +162,12 @@ class TableHead extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { sorting, searchTerm } = state.appReducer;
+    const { sorting, searchTerm, contextYear } = state.appReducer;
 
-    return { sorting, searchTerm };
+    return { sorting, searchTerm, contextYear };
 };
 
-export default connect(mapStateToProps, { sortByGroup, setSearchTerm })(
-    TableHead
-);
+export default compose(
+    withRouter,
+    connect(mapStateToProps, { sortByGroup, setSearchTerm })
+)(TableHead);

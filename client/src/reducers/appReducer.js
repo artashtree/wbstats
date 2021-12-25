@@ -2,7 +2,7 @@ import {
     FETCH_WB_DATA,
     FETCH_WB_DATA_SUCCESS,
     FETCH_WB_DATA_FAILURE,
-    TOGGLE_EXPAND_RECORD,
+    EXPAND_RECORD,
     COLLAPSE_RECORDS,
     SORT_BY_GROUP,
     SET_CONTEXT_YEAR,
@@ -73,15 +73,14 @@ export default function (state = initialState, action) {
             };
         }
 
-        case TOGGLE_EXPAND_RECORD: {
+        case EXPAND_RECORD: {
             const { records } = state;
             const { targetKey, response } = action.payload;
             const newRecords = {};
 
             Object.keys(records).map((itemKey) => {
                 const item = records[itemKey];
-                item.expanded =
-                    item.key === targetKey && !item.expanded ? true : false;
+                item.expanded = item.key === targetKey;
                 item.extract = item.key === targetKey ? response.extract : '';
                 newRecords[itemKey] = item;
             });
