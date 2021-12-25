@@ -1,9 +1,56 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { setContextYear, fetchWBData } from '../actions';
 import logo from '../imgs/logo-wb.svg';
 
 class Header extends React.Component {
+    componentDidMount() {
+        const searchString = this.props.history.location.search;
+        const { itemsCount } = this.props;
+
+        const index = searchString.search(/y=\d{4}/g);
+
+        if (index !== -1) {
+            const contextYear = searchString.slice(index + 2, index + 7);
+
+            this.props.fetchWBData({
+                year: contextYear,
+                itemsCount,
+            });
+            this.props.setContextYear({ contextYear });
+        }
+
+        this.unregisterHistoryListener = this.props.history.listen(
+            (location, action) => {
+                if (action === 'POP') {
+                    const searchString = location.search;
+                    const index = searchString.search(/y=\d{4}/g);
+
+                    if (index !== -1) {
+                        const contextYear = searchString.slice(
+                            index + 2,
+                            index + 7
+                        );
+
+                        if (contextYear !== this.props.contextYear) {
+                            this.props.setContextYear({ contextYear });
+                            this.props.fetchWBData({
+                                year: contextYear,
+                                itemsCount,
+                            });
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+    componentWillUnmount() {
+        this.unregisterHistoryListener();
+    }
+
     handleYearChange = (event) => {
         const contextYear = event.target.value;
         const { itemsCount } = this.props;
@@ -13,6 +60,7 @@ class Header extends React.Component {
             itemsCount,
         });
         this.props.setContextYear({ contextYear });
+        this.props.history.push(`?y=${contextYear}`);
     };
 
     render() {
@@ -61,6 +109,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { setContextYear, fetchWBData })(
-    Header
-);
+export default compose(
+    withRouter,
+    connect(mapStateToProps, { setContextYear, fetchWBData })
+)(Header);
