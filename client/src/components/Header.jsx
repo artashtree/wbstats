@@ -47,6 +47,8 @@ class Header extends React.Component {
                                 itemsCount,
                             });
                         }
+                    } else {
+                        this.props.setContextYear('');
                     }
                 }
             }
