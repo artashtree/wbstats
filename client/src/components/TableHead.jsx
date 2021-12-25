@@ -61,6 +61,8 @@ class TableHead extends React.Component {
                             index + match[0].length
                         );
                         this.props.setSearchTerm(searchTerm);
+                    } else {
+                        this.props.setSearchTerm('');
                     }
                 }
             }
