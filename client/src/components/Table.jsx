@@ -13,18 +13,6 @@ class Table extends React.Component {
             return <Preloader />;
         }
 
-        if (isFailed) {
-            return (
-                <div className='d-flex justify-content-center'>
-                    <div
-                        className='alert alert-danger d-flex align-items-center justify-content-center w-50 mt-5'
-                        role='alert'>
-                        <div>The request has failed...</div>
-                    </div>
-                </div>
-            );
-        }
-
         if (contextYear === '') {
             return (
                 <div className='d-flex justify-content-center'>
@@ -32,6 +20,18 @@ class Table extends React.Component {
                         className='alert alert-info d-flex align-items-center justify-content-center w-50 mt-5'
                         role='alert'>
                         <div>Choose a year</div>
+                    </div>
+                </div>
+            );
+        }
+
+        if (isFailed) {
+            return (
+                <div className='d-flex justify-content-center'>
+                    <div
+                        className='alert alert-danger d-flex align-items-center justify-content-center w-50 mt-5'
+                        role='alert'>
+                        <div>The request has failed...</div>
                     </div>
                 </div>
             );
