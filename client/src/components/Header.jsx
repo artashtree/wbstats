@@ -7,17 +7,18 @@ import logo from '../imgs/logo-wb.svg';
 
 class Header extends React.Component {
     componentDidMount() {
-        const yearLength = 4;
         const searchPrefixLength = 2;
+        const regex = /y=\d+/i;
         const searchString = this.props.history.location.search;
         const { itemsCount } = this.props;
 
-        const index = searchString.search(/y=\d{4}/i);
+        const index = searchString.search(regex);
+        const match = searchString.match(regex);
 
         if (index !== -1) {
             const contextYear = searchString.slice(
                 index + searchPrefixLength,
-                index + searchPrefixLength + yearLength
+                index + match[0].length
             );
 
             this.props.fetchWBData({
@@ -32,19 +33,24 @@ class Header extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const index = searchString.search(/y=\d+/i);
+                    const index = searchString.search(regex);
+                    const match = searchString.match(regex);
 
-                    const contextYear = searchString.slice(
-                        index + searchPrefixLength,
-                        index + searchPrefixLength + yearLength
-                    );
+                    if (index !== -1) {
+                        const contextYear = searchString.slice(
+                            index + searchPrefixLength,
+                            index + match[0].length
+                        );
 
-                    if (contextYear !== this.props.contextYear) {
-                        this.props.setContextYear({ contextYear });
-                        this.props.fetchWBData({
-                            year: contextYear,
-                            itemsCount,
-                        });
+                        if (contextYear !== this.props.contextYear) {
+                            this.props.setContextYear({ contextYear });
+                            this.props.fetchWBData({
+                                year: contextYear,
+                                itemsCount,
+                            });
+                        }
+                    } else {
+                        this.props.setContextYear({ contextYear: '' });
                     }
                 }
             }
