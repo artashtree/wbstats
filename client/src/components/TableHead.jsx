@@ -26,17 +26,17 @@ class TableHead extends React.Component {
         this.props.setSearchTerm(value);
 
         if (value) {
-            this.props.history.push({ search: `y=${contextYear}&s=${value}` });
+            this.props.history.push({ search: `year=${contextYear}&search=${value}` });
         } else {
-            this.props.history.push({ search: `y=${contextYear}` });
+            this.props.history.push({ search: `year=${contextYear}` });
         }
     };
 
     componentDidMount() {
-        const searchPrefixLength = 2;
+        const searchPrefixLength = 7;
         const searchString = this.props.history.location.search;
 
-        const regex = /s=\w+/i;
+        const regex = /search=\w+/i;
         const index = searchString.search(regex);
 
         if (index !== -1) {
@@ -52,7 +52,7 @@ class TableHead extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const index = searchString.search(/s=\w+/i);
+                    const index = searchString.search(regex);
 
                     if (index !== -1) {
                         const match = searchString.match(regex);

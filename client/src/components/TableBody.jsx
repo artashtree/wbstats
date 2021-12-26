@@ -94,8 +94,8 @@ class TableBody extends React.Component {
                                     className='text-white'
                                     to={{
                                         pathname: `/r/${itemKey.toLocaleLowerCase()}`,
-                                        search: `y=${contextYear}${
-                                            searchTerm ? `&s=${searchTerm}` : ''
+                                        search: `year=${contextYear}${
+                                            searchTerm ? `&search=${searchTerm}` : ''
                                         }`,
                                     }}
                                     onClick={() =>
