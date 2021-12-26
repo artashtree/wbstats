@@ -4,7 +4,6 @@ import TableHead from './TableHead';
 import TableBody from './TableBody';
 import Preloader from './Preloader';
 import Message from './Message';
-import { fetchWBData } from '../actions';
 class Table extends React.Component {
     render() {
         const { isFetching, isFailed, records, contextYear } = this.props;
@@ -48,4 +47,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { fetchWBData })(Table);
+export default connect(mapStateToProps)(Table);

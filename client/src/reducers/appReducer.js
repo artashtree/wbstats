@@ -54,10 +54,6 @@ export default function (state = initialState, action) {
                 filteredRecords,
                 isFetching: false,
                 isFailed: false,
-                sorting: {
-                    direction: '',
-                    groupName: '',
-                },
             };
         }
 
@@ -66,10 +62,6 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 isFailed: true,
-                sorting: {
-                    direction: '',
-                    groupName: '',
-                },
             };
         }
 
@@ -109,8 +101,13 @@ export default function (state = initialState, action) {
 
         case SORT_BY_GROUP: {
             const { records, filteredRecords, contextYear, sorting } = state;
-            const { direction, groupName: prevGroupName } = sorting;
-            const { groupName } = action.payload;
+            const { direction: stateDirection, groupName: prevGroupName } =
+                sorting;
+            const { groupName, direction: actionDirection } = action.payload;
+
+            const direction = actionDirection
+                ? actionDirection
+                : stateDirection;
 
             const newRecords = getSortedRecords({
                 records,
@@ -119,6 +116,7 @@ export default function (state = initialState, action) {
                 prevGroupName,
                 direction,
             });
+
             const newFilteredRecords = getSortedRecords({
                 records: filteredRecords,
                 contextYear,
