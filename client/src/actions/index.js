@@ -15,7 +15,7 @@ import { getData, getWikiExtract } from '../helpers';
 import { wikiApi } from '../api';
 
 export const fetchWBData = (content) => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch({ type: FETCH_WB_DATA });
 
         getData(content.year, content.itemsCount)
@@ -24,6 +24,17 @@ export const fetchWBData = (content) => {
                     type: FETCH_WB_DATA_SUCCESS,
                     payload: data,
                 });
+
+                const { sorting } = getState().appReducer;
+                if (sorting.direction && sorting.groupName) {
+                    dispatch({
+                        type: SORT_BY_GROUP,
+                        payload: {
+                            groupName: sorting.groupName,
+                            direction: sorting.direction === 'asc' ? 'desc' : 'asc',
+                        },
+                    });
+                }
             })
             .catch((error) => {
                 console.error(error);
