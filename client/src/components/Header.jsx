@@ -7,8 +7,8 @@ import logo from '../imgs/logo-wb.svg';
 
 class Header extends React.Component {
     componentDidMount() {
-        const searchPrefixLength = 2;
-        const regex = /y=\d+/i;
+        const searchPrefixLength = 5;
+        const regex = /year=\d+/i;
         const searchString = this.props.history.location.search;
         const { itemsCount } = this.props;
 
@@ -63,7 +63,9 @@ class Header extends React.Component {
 
     handleYearChange = (event) => {
         const contextYear = event.target.value;
+        const searchPrefixLength = 7;
         const { itemsCount } = this.props;
+        const regex = /search=\w+/i;
 
         this.props.fetchWBData({
             year: contextYear,
@@ -72,18 +74,19 @@ class Header extends React.Component {
         this.props.setContextYear({ contextYear });
 
         const searchString = this.props.history.location.search;
-        const index = searchString.search(/s=\w+/i);
+        const index = searchString.search(regex);
+        const match = searchString.match(regex);
 
         if (index !== -1) {
             const searchTerm = searchString.slice(
-                index + 2,
-                index + 2 + this.props.searchTerm.length
+                index + searchPrefixLength,
+                index + match[0].length
             );
             this.props.history.push({
-                search: `y=${contextYear}&s=${searchTerm}`,
+                search: `year=${contextYear}&search=${searchTerm}`,
             });
         } else {
-            this.props.history.push({ search: `y=${contextYear}` });
+            this.props.history.push({ search: `year=${contextYear}` });
         }
     };
 
@@ -125,12 +128,11 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { contextYear, itemsCount, searchTerm } = state.appReducer;
+    const { contextYear, itemsCount } = state.appReducer;
 
     return {
         contextYear,
         itemsCount,
-        searchTerm,
     };
 };
 
