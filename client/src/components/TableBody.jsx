@@ -66,6 +66,10 @@ class TableBody extends React.Component {
             return null;
         }
 
+        const yearParam = contextYear ? `year=${contextYear}` : '';
+        const searchParam = searchTerm ? `&search=${searchTerm}` : '';
+        const search = `${yearParam}${searchParam}`;
+
         let rowCounter = 1;
         const data = searchTerm === '' ? records : filteredRecords;
 
@@ -94,9 +98,7 @@ class TableBody extends React.Component {
                                     className='text-white'
                                     to={{
                                         pathname: `/r/${itemKey.toLocaleLowerCase()}`,
-                                        search: `year=${contextYear}${
-                                            searchTerm ? `&search=${searchTerm}` : ''
-                                        }`,
+                                        search,
                                     }}
                                     onClick={() =>
                                         this.handleRowFocus(null, item)
