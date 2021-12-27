@@ -37,13 +37,12 @@ class TableHead extends React.Component {
         const searchString = this.props.history.location.search;
 
         const regex = /search=\w+/i;
-        const index = searchString.search(regex);
+        const match = searchString.match(regex);
 
-        if (index !== -1) {
-            const match = searchString.match(regex);
+        if (match) {
             const searchTerm = searchString.slice(
-                index + searchPrefixLength,
-                index + match[0].length
+                match.index + searchPrefixLength,
+                match.index + match[0].length
             );
             this.props.setSearchTerm(searchTerm);
         }
@@ -52,13 +51,12 @@ class TableHead extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const index = searchString.search(regex);
+                    const match = searchString.match(regex);
 
-                    if (index !== -1) {
-                        const match = searchString.match(regex);
+                    if (match) {
                         const searchTerm = searchString.slice(
-                            index + searchPrefixLength,
-                            index + match[0].length
+                            match.index + searchPrefixLength,
+                            match.index + match[0].length
                         );
                         this.props.setSearchTerm(searchTerm);
                     } else {

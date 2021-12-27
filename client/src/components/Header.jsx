@@ -12,13 +12,12 @@ class Header extends React.Component {
         const searchString = this.props.history.location.search;
         const { itemsCount } = this.props;
 
-        const index = searchString.search(regex);
         const match = searchString.match(regex);
 
-        if (index !== -1) {
+        if (match) {
             const contextYear = searchString.slice(
-                index + searchPrefixLength,
-                index + match[0].length
+                match.index + searchPrefixLength,
+                match.index + match[0].length
             );
 
             this.props.fetchWBData({
@@ -33,13 +32,12 @@ class Header extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const index = searchString.search(regex);
                     const match = searchString.match(regex);
 
-                    if (index !== -1) {
+                    if (match) {
                         const contextYear = searchString.slice(
-                            index + searchPrefixLength,
-                            index + match[0].length
+                            match.index + searchPrefixLength,
+                            match.index + match[0].length
                         );
 
                         if (contextYear !== this.props.contextYear) {
@@ -74,13 +72,12 @@ class Header extends React.Component {
         this.props.setContextYear({ contextYear });
 
         const searchString = this.props.history.location.search;
-        const index = searchString.search(regex);
         const match = searchString.match(regex);
 
-        if (index !== -1) {
+        if (match) {
             const searchTerm = searchString.slice(
-                index + searchPrefixLength,
-                index + match[0].length
+                match.index + searchPrefixLength,
+                match.index + match[0].length
             );
             this.props.history.push({
                 search: `year=${contextYear}&search=${searchTerm}`,
