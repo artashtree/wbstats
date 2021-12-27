@@ -4,20 +4,21 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { setContextYear, fetchWBData } from '../actions';
 import logo from '../imgs/logo-wb.svg';
+import config from '../config';
+
+const { params } = config;
 
 class Header extends React.Component {
     componentDidMount() {
-        const searchPrefixLength = 5;
-        const regex = /year=\d+/i;
         const searchString = this.props.history.location.search;
         const { itemsCount } = this.props;
 
-        const match = searchString.match(regex);
+        const yearParamMatch = searchString.match(params.year.regex);
 
-        if (match) {
+        if (yearParamMatch) {
             const contextYear = searchString.slice(
-                match.index + searchPrefixLength,
-                match.index + match[0].length
+                yearParamMatch.index + params.year.prefixLength,
+                yearParamMatch.index + yearParamMatch[0].length
             );
 
             this.props.fetchWBData({
@@ -32,12 +33,14 @@ class Header extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const match = searchString.match(regex);
+                    const yearParamMatch = searchString.match(
+                        params.year.regex
+                    );
 
-                    if (match) {
+                    if (yearParamMatch) {
                         const contextYear = searchString.slice(
-                            match.index + searchPrefixLength,
-                            match.index + match[0].length
+                            yearParamMatch.index + params.year.prefixLength,
+                            yearParamMatch.index + yearParamMatch[0].length
                         );
 
                         if (contextYear !== this.props.contextYear) {
@@ -60,31 +63,20 @@ class Header extends React.Component {
     }
 
     handleYearChange = (event) => {
-        const contextYear = event.target.value;
-        const searchPrefixLength = 7;
-        const { itemsCount } = this.props;
-        const regex = /search=\w+/i;
+        const value = event.target.value;
+        const { itemsCount, searchTerm } = this.props;
 
         this.props.fetchWBData({
-            year: contextYear,
+            year: value,
             itemsCount,
         });
-        this.props.setContextYear({ contextYear });
+        this.props.setContextYear({ contextYear: value });
 
-        const searchString = this.props.history.location.search;
-        const match = searchString.match(regex);
+        const yearParam = value ? `year=${value}` : '';
+        const searchParam = searchTerm ? `&search=${searchTerm}` : '';
+        const search = `${yearParam}${searchParam}`;
 
-        if (match) {
-            const searchTerm = searchString.slice(
-                match.index + searchPrefixLength,
-                match.index + match[0].length
-            );
-            this.props.history.push({
-                search: `year=${contextYear}&search=${searchTerm}`,
-            });
-        } else {
-            this.props.history.push({ search: `year=${contextYear}` });
-        }
+        this.props.history.push({ search });
     };
 
     render() {
@@ -125,11 +117,12 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { contextYear, itemsCount } = state.appReducer;
+    const { contextYear, itemsCount, searchTerm } = state.appReducer;
 
     return {
         contextYear,
         itemsCount,
+        searchTerm,
     };
 };
 

@@ -3,13 +3,9 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { sortByGroup, setSearchTerm } from '../actions';
+import config from '../config';
 
-const groups = {
-    p: 'population',
-    gdp: 'gdp',
-    gdpc: 'gdpCapita',
-};
-
+const { sortingGroups, params } = config;
 class TableHead extends React.Component {
     sortByGroup = (event) => {
         event.preventDefault();
@@ -25,24 +21,21 @@ class TableHead extends React.Component {
 
         this.props.setSearchTerm(value);
 
-        if (value) {
-            this.props.history.push({ search: `year=${contextYear}&search=${value}` });
-        } else {
-            this.props.history.push({ search: `year=${contextYear}` });
-        }
+        const yearParam = contextYear ? `year=${contextYear}` : '';
+        const searchParam = value ? `&search=${value}`: '';
+        const search = `${yearParam}${searchParam}`;
+
+        this.props.history.push({ search });
     };
 
     componentDidMount() {
-        const searchPrefixLength = 7;
         const searchString = this.props.history.location.search;
 
-        const regex = /search=\w+/i;
-        const match = searchString.match(regex);
-
-        if (match) {
+        const searchParamMatch = searchString.match(params.search.regex);
+        if (searchParamMatch) {
             const searchTerm = searchString.slice(
-                match.index + searchPrefixLength,
-                match.index + match[0].length
+                searchParamMatch.index + params.search.prefixLength,
+                searchParamMatch.index + searchParamMatch[0].length
             );
             this.props.setSearchTerm(searchTerm);
         }
@@ -51,12 +44,14 @@ class TableHead extends React.Component {
             (location, action) => {
                 if (action === 'POP') {
                     const searchString = location.search;
-                    const match = searchString.match(regex);
+                    const searchParamMatch = searchString.match(
+                        params.search.regex
+                    );
 
-                    if (match) {
+                    if (searchParamMatch) {
                         const searchTerm = searchString.slice(
-                            match.index + searchPrefixLength,
-                            match.index + match[0].length
+                            searchParamMatch.index + params.search.prefixLength,
+                            searchParamMatch.index + searchParamMatch[0].length
                         );
                         this.props.setSearchTerm(searchTerm);
                     } else {
@@ -103,13 +98,13 @@ class TableHead extends React.Component {
                         <button
                             className='btn btn-light d-flex align-items-center'
                             type='button'
-                            data-group-name={groups.p}
+                            data-group-name={sortingGroups.p}
                             onClick={this.sortByGroup}>
                             Population
                             <i
                                 className={` ms-1
                                 ${
-                                    groupName === groups.p
+                                    groupName === sortingGroups.p
                                         ? direction === 'asc'
                                             ? 'icon-circle-up'
                                             : 'icon-circle-down'
@@ -121,13 +116,13 @@ class TableHead extends React.Component {
                         <button
                             className='btn btn-light d-flex align-items-center'
                             type='button'
-                            data-group-name={groups.gdp}
+                            data-group-name={sortingGroups.gdp}
                             onClick={this.sortByGroup}>
                             Economy
                             <i
                                 className={` ms-1
                                 ${
-                                    groupName === groups.gdp
+                                    groupName === sortingGroups.gdp
                                         ? direction === 'asc'
                                             ? 'icon-circle-up'
                                             : 'icon-circle-down'
@@ -139,13 +134,13 @@ class TableHead extends React.Component {
                         <button
                             className='btn btn-light d-flex align-items-center'
                             type='button'
-                            data-group-name={groups.gdpc}
+                            data-group-name={sortingGroups.gdpc}
                             onClick={this.sortByGroup}>
                             GDP per capita
                             <i
                                 className={` ms-1
                                     ${
-                                        groupName === groups.gdpc
+                                        groupName === sortingGroups.gdpc
                                             ? direction === 'asc'
                                                 ? 'icon-circle-up'
                                                 : 'icon-circle-down'
