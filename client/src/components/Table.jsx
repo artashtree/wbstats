@@ -23,7 +23,7 @@ class Table extends React.Component {
 
         if (isNoData) {
             return (
-                <Message type='warning' text='There is no data for this year' />
+                <Message type='warning' text={`There is no data for ${contextYear} year`} />
             );
         }
 
