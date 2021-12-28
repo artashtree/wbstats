@@ -64,7 +64,7 @@ class Header extends React.Component {
 
     handleYearChange = (event) => {
         const value = event.target.value;
-        const { itemsCount, searchTerm } = this.props;
+        const { itemsCount, searchTerm, sorting } = this.props;
 
         this.props.fetchWBData({
             year: value,
@@ -74,7 +74,13 @@ class Header extends React.Component {
 
         const yearParam = value ? `year=${value}` : '';
         const searchParam = searchTerm ? `&search=${searchTerm}` : '';
-        const search = `${yearParam}${searchParam}`;
+        const sortGroupParam = sorting.groupName
+            ? `&sortgroup=${sorting.groupName}`
+            : '';
+        const sortDirParam = sorting.direction
+            ? `&sortdir=${sorting.direction}`
+            : '';
+        const search = `${yearParam}${searchParam}${sortGroupParam}${sortDirParam}`;
 
         this.props.history.push({ search });
     };
@@ -117,12 +123,13 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { contextYear, itemsCount, searchTerm } = state.appReducer;
+    const { contextYear, itemsCount, searchTerm, sorting } = state.appReducer;
 
     return {
         contextYear,
         itemsCount,
         searchTerm,
+        sorting,
     };
 };
 

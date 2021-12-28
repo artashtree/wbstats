@@ -59,7 +59,7 @@ class TableBody extends React.Component {
     }
 
     render() {
-        const { records, contextYear, filteredRecords, searchTerm } =
+        const { records, contextYear, filteredRecords, searchTerm, sorting } =
             this.props;
 
         if (!records) {
@@ -68,7 +68,13 @@ class TableBody extends React.Component {
 
         const yearParam = contextYear ? `year=${contextYear}` : '';
         const searchParam = searchTerm ? `&search=${searchTerm}` : '';
-        const search = `${yearParam}${searchParam}`;
+        const sortGroupParam = sorting.groupName
+            ? `&sortgroup=${sorting.groupName}`
+            : '';
+        const sortDirParam = sorting.direction
+            ? `&sortdir=${sorting.direction}`
+            : '';
+        const search = `${yearParam}${searchParam}${sortGroupParam}${sortDirParam}`;
 
         let rowCounter = 1;
         const data = searchTerm === '' ? records : filteredRecords;

@@ -7,23 +7,43 @@ import config from '../config';
 
 const { sortingGroups, params } = config;
 class TableHead extends React.Component {
-    sortByGroup = (event) => {
+    sortByGroup = async (event) => {
         event.preventDefault();
         const { groupName } = event.target.dataset;
 
-        this.props.sortByGroup({ groupName });
+        await this.props.sortByGroup({ groupName });
+
+        const { contextYear, searchTerm, sorting } = this.props;
+
+        const yearParam = `year=${contextYear}`;
+        const searchParam = searchTerm ? `&search=${searchTerm}` : '';
+        const sortGroupParam = sorting.groupName
+            ? `&sortgroup=${sorting.groupName}`
+            : '';
+        const sortDirParam = sorting.direction
+            ? `&sortdir=${sorting.direction}`
+            : '';
+        const search = `${yearParam}${searchParam}${sortGroupParam}${sortDirParam}`;
+
+        this.props.history.push({ search });
     };
 
     handleSearchChange = (event) => {
         event.preventDefault();
         const value = event.target.value;
-        const { contextYear } = this.props;
+        const { contextYear, sorting } = this.props;
 
         this.props.setSearchTerm(value);
 
         const yearParam = contextYear ? `year=${contextYear}` : '';
-        const searchParam = value ? `&search=${value}`: '';
-        const search = `${yearParam}${searchParam}`;
+        const searchParam = value ? `&search=${value}` : '';
+        const sortGroupParam = sorting.groupName
+            ? `&sortgroup=${sorting.groupName}`
+            : '';
+        const sortDirParam = sorting.direction
+            ? `&sortdir=${sorting.direction}`
+            : '';
+        const search = `${yearParam}${searchParam}${sortGroupParam}${sortDirParam}`;
 
         this.props.history.push({ search });
     };
@@ -38,6 +58,28 @@ class TableHead extends React.Component {
                 searchParamMatch.index + searchParamMatch[0].length
             );
             this.props.setSearchTerm(searchTerm);
+        }
+
+        const sortGroupParamPrefixLength = 10;
+        const sortGroupParamRegex = /sortgroup=\w+/i;
+        const sortGroupParamMatch = searchString.match(sortGroupParamRegex);
+
+        const sortDirParamPrefixLength = 8;
+        const sortDirParamRegex = /sortdir=\w+/i;
+        const sortDirParamMatch = searchString.match(sortDirParamRegex);
+
+        if (sortGroupParamMatch && sortDirParamMatch) {
+            const groupName = searchString.slice(
+                sortGroupParamMatch.index + sortGroupParamPrefixLength,
+                sortGroupParamMatch.index + sortGroupParamMatch[0].length
+            );
+
+            const direction = searchString.slice(
+                sortDirParamMatch.index + sortDirParamPrefixLength,
+                sortDirParamMatch.index + sortDirParamMatch[0].length
+            );
+
+            this.props.sortByGroup({ groupName, direction });
         }
 
         this.unregisterHistoryListener = this.props.history.listen(
