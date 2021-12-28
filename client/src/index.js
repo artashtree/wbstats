@@ -6,10 +6,10 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import App from './components/App';
+import { App } from './components/App';
 import rootReducer from './reducers';
 
-const middleware = [thunk];
+const middleware = [thunk, logger];
 
 const store = createStore(
     rootReducer,

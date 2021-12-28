@@ -7,25 +7,26 @@ import config from '../config';
 
 const { sortingGroups, params } = config;
 class TableHead extends React.Component {
-    sortByGroup = async (event) => {
+    sortByGroup = (event) => {
         event.preventDefault();
         const { groupName } = event.target.dataset;
-
-        await this.props.sortByGroup({ groupName });
-
         const { contextYear, searchTerm, sorting } = this.props;
 
-        const yearParam = `year=${contextYear}`;
+        let direction;
+        if (groupName === sorting.groupName && sorting.groupName !== '') {
+            direction = sorting.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            direction = 'desc';
+        }
+        
+        const yearParam = contextYear ? `year=${contextYear}` : '';
         const searchParam = searchTerm ? `&search=${searchTerm}` : '';
-        const sortGroupParam = sorting.groupName
-            ? `&sortgroup=${sorting.groupName}`
-            : '';
-        const sortDirParam = sorting.direction
-            ? `&sortdir=${sorting.direction}`
-            : '';
+        const sortGroupParam = `&sortgroup=${groupName}`;
+        const sortDirParam = `&sortdir=${direction}`;
         const search = `${yearParam}${searchParam}${sortGroupParam}${sortDirParam}`;
-
         this.props.history.push({ search });
+
+        this.props.sortByGroup({ groupName, direction });
     };
 
     handleSearchChange = (event) => {
@@ -48,6 +49,42 @@ class TableHead extends React.Component {
         this.props.history.push({ search });
     };
 
+    onHistoryListen = (location, action) => {
+        if (action === 'POP') {
+            const searchString = location.search;
+
+            const searchParamMatch = searchString.match(
+                params.search.regex
+            );
+            if (searchParamMatch) {
+                const searchTerm = searchString.slice(
+                    searchParamMatch.index + params.search.prefixLength,
+                    searchParamMatch.index + searchParamMatch[0].length
+                );
+                this.props.setSearchTerm(searchTerm);
+            } else {
+                this.props.setSearchTerm('');
+            }
+
+            const sortGroupParamMatch = searchString.match(params.sortGroup.regex);
+            const sortDirParamMatch = searchString.match(params.sortDir.regex);
+
+            if (sortGroupParamMatch && sortDirParamMatch) {
+                const groupName = searchString.slice(
+                    sortGroupParamMatch.index + params.sortGroup.prefixLength,
+                    sortGroupParamMatch.index + sortGroupParamMatch[0].length
+                );
+
+                const direction = searchString.slice(
+                    sortDirParamMatch.index + params.sortDir.prefixLength,
+                    sortDirParamMatch.index + sortDirParamMatch[0].length
+                );
+
+                this.props.sortByGroup({ groupName, direction });
+            }
+        }
+    };
+
     componentDidMount() {
         const searchString = this.props.history.location.search;
 
@@ -60,48 +97,24 @@ class TableHead extends React.Component {
             this.props.setSearchTerm(searchTerm);
         }
 
-        const sortGroupParamPrefixLength = 10;
-        const sortGroupParamRegex = /sortgroup=\w+/i;
-        const sortGroupParamMatch = searchString.match(sortGroupParamRegex);
-
-        const sortDirParamPrefixLength = 8;
-        const sortDirParamRegex = /sortdir=\w+/i;
-        const sortDirParamMatch = searchString.match(sortDirParamRegex);
+        const sortGroupParamMatch = searchString.match(params.sortGroup.regex);
+        const sortDirParamMatch = searchString.match(params.sortDir.regex);
 
         if (sortGroupParamMatch && sortDirParamMatch) {
             const groupName = searchString.slice(
-                sortGroupParamMatch.index + sortGroupParamPrefixLength,
+                sortGroupParamMatch.index + params.sortGroup.prefixLength,
                 sortGroupParamMatch.index + sortGroupParamMatch[0].length
             );
 
             const direction = searchString.slice(
-                sortDirParamMatch.index + sortDirParamPrefixLength,
+                sortDirParamMatch.index + params.sortDir.prefixLength,
                 sortDirParamMatch.index + sortDirParamMatch[0].length
             );
 
             this.props.sortByGroup({ groupName, direction });
         }
 
-        this.unregisterHistoryListener = this.props.history.listen(
-            (location, action) => {
-                if (action === 'POP') {
-                    const searchString = location.search;
-                    const searchParamMatch = searchString.match(
-                        params.search.regex
-                    );
-
-                    if (searchParamMatch) {
-                        const searchTerm = searchString.slice(
-                            searchParamMatch.index + params.search.prefixLength,
-                            searchParamMatch.index + searchParamMatch[0].length
-                        );
-                        this.props.setSearchTerm(searchTerm);
-                    } else {
-                        this.props.setSearchTerm('');
-                    }
-                }
-            }
-        );
+        this.unregisterHistoryListener = this.props.history.listen(this.onHistoryListen);
     }
 
     componentWillUnmount() {

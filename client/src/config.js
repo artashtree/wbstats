@@ -13,5 +13,13 @@ export default {
             regex: /year=\d+/i,
             prefixLength: 5,
         },
+        sortGroup: {
+            regex: /sortgroup=\w+/i,
+            prefixLength: 10,
+        },
+        sortDir: {
+            regex: /sortdir=\w+/i,
+            prefixLength: 8,
+        },
     },
 };

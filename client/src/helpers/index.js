@@ -118,11 +118,7 @@ export const getSortedRecords = ({ records, contextYear, groupName, prevGroupNam
                     : 0
                 : null;
 
-            if (groupName === prevGroupName && prevGroupName !== '') {
-                return direction === 'asc' ? b - a : a - b;
-            } else {
-                return b - a;
-            }
+            return direction === 'desc' ? b - a : a - b;
         }
     );
 

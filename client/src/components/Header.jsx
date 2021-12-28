@@ -9,6 +9,33 @@ import config from '../config';
 const { params } = config;
 
 class Header extends React.Component {
+    onHistoryListen = (location, action) => {
+        if (action === 'POP') {
+            const { itemsCount } = this.props;
+            const searchString = location.search;
+            const yearParamMatch = searchString.match(
+                params.year.regex
+            );
+
+            if (yearParamMatch) {
+                const contextYear = searchString.slice(
+                    yearParamMatch.index + params.year.prefixLength,
+                    yearParamMatch.index + yearParamMatch[0].length
+                );
+
+                if (contextYear !== this.props.contextYear) {
+                    this.props.setContextYear({ contextYear });
+                    this.props.fetchWBData({
+                        year: contextYear,
+                        itemsCount,
+                    });
+                }
+            } else {
+                this.props.setContextYear({ contextYear: '' });
+            }
+        }
+    }
+
     componentDidMount() {
         const searchString = this.props.history.location.search;
         const { itemsCount } = this.props;
@@ -29,33 +56,7 @@ class Header extends React.Component {
             this.props.setContextYear({ contextYear });
         }
 
-        this.unregisterHistoryListener = this.props.history.listen(
-            (location, action) => {
-                if (action === 'POP') {
-                    const searchString = location.search;
-                    const yearParamMatch = searchString.match(
-                        params.year.regex
-                    );
-
-                    if (yearParamMatch) {
-                        const contextYear = searchString.slice(
-                            yearParamMatch.index + params.year.prefixLength,
-                            yearParamMatch.index + yearParamMatch[0].length
-                        );
-
-                        if (contextYear !== this.props.contextYear) {
-                            this.props.setContextYear({ contextYear });
-                            this.props.fetchWBData({
-                                year: contextYear,
-                                itemsCount,
-                            });
-                        }
-                    } else {
-                        this.props.setContextYear({ contextYear: '' });
-                    }
-                }
-            }
-        );
+        this.unregisterHistoryListener = this.props.history.listen(this.onHistoryListen);
     }
 
     componentWillUnmount() {

@@ -101,13 +101,8 @@ export default function (state = initialState, action) {
 
         case SORT_BY_GROUP: {
             const { records, filteredRecords, contextYear, sorting } = state;
-            const { direction: stateDirection, groupName: prevGroupName } =
-                sorting;
-            const { groupName, direction: actionDirection } = action.payload;
-
-            const direction = actionDirection
-                ? actionDirection
-                : stateDirection;
+            const { groupName: prevGroupName } = sorting;
+            const { groupName, direction } = action.payload;
 
             const newRecords = getSortedRecords({
                 records,
@@ -125,19 +120,12 @@ export default function (state = initialState, action) {
                 direction,
             });
 
-            let newDirection;
-            if (groupName === prevGroupName && prevGroupName !== '') {
-                newDirection = direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                newDirection = 'desc';
-            }
-
             return {
                 ...state,
                 records: newRecords,
                 filteredRecords: newFilteredRecords,
                 sorting: {
-                    direction: newDirection,
+                    direction,
                     groupName,
                 },
             };
