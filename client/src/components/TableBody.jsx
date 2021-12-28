@@ -18,26 +18,30 @@ class TableBody extends React.Component {
         this.numberFormatter = new Intl.NumberFormat('en-US');
     }
 
+    onHistoryListen = (location, action) => {
+        const { records, searchTerm, filteredRecords } = this.props;
+        const itemKey = location.pathname.slice(3).toUpperCase();
+        const data = searchTerm === '' ? records : filteredRecords;
+
+        if (action === 'POP') {
+            if (location.pathname === '/' || location.pathname === '/r/') {
+                this.props.collapseRecords();
+            } else if (data[itemKey]) {
+                this.handleRowFocus(null, data[itemKey]);
+            }
+        }
+    };
+
     componentDidMount() {
         const { history, records, searchTerm, filteredRecords } = this.props;
         let itemKey = history.location.pathname.slice(3).toUpperCase();
-
         const data = searchTerm === '' ? records : filteredRecords;
 
         if (itemKey && data[itemKey]) {
             this.handleRowFocus(null, records[itemKey]);
         }
 
-        this.unregisterHistoryListener = history.listen((location, action) => {
-            itemKey = location.pathname.slice(3).toUpperCase();
-            if (action === 'POP') {
-                if (location.pathname === '/' || location.pathname === '/r/') {
-                    this.props.collapseRecords();
-                } else if (data[itemKey]) {
-                    this.handleRowFocus(null, data[itemKey]);
-                }
-            }
-        });
+        this.unregisterHistoryListener = history.listen(this.onHistoryListen);
     }
 
     componentWillUnmount() {
