@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import App from './components/App';
 import rootReducer from './reducers';
 
-const middleware = [thunk, logger];
+const middleware = [thunk];
 
 const store = createStore(
     rootReducer,
