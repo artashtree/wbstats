@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -208,6 +209,15 @@ class TableHead extends React.Component {
         );
     }
 }
+
+TableHead.propTypes = {
+    contextYear: PropTypes.string.isRequired,
+    searchTerm: PropTypes.string.isRequired,
+    sorting: PropTypes.exact({
+        groupName: PropTypes.string.isRequired,
+        direction: PropTypes.string.isRequired,
+    }),
+};
 
 const mapStateToProps = (state) => {
     const { sorting, searchTerm, contextYear } = state.appReducer;

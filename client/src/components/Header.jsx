@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -13,9 +14,7 @@ class Header extends React.Component {
         if (action === 'POP') {
             const { itemsCount } = this.props;
             const searchString = location.search;
-            const yearParamMatch = searchString.match(
-                params.year.regex
-            );
+            const yearParamMatch = searchString.match(params.year.regex);
 
             if (yearParamMatch) {
                 const contextYear = searchString.slice(
@@ -34,7 +33,7 @@ class Header extends React.Component {
                 this.props.setContextYear({ contextYear: '' });
             }
         }
-    }
+    };
 
     componentDidMount() {
         const searchString = this.props.history.location.search;
@@ -56,7 +55,9 @@ class Header extends React.Component {
             this.props.setContextYear({ contextYear });
         }
 
-        this.unregisterHistoryListener = this.props.history.listen(this.onHistoryListen);
+        this.unregisterHistoryListener = this.props.history.listen(
+            this.onHistoryListen
+        );
     }
 
     componentWillUnmount() {
@@ -122,6 +123,16 @@ class Header extends React.Component {
         );
     }
 }
+
+Header.propTypes = {
+    contextYear: PropTypes.string.isRequired,
+    itemsCount: PropTypes.number.isRequired,
+    searchTerm: PropTypes.string.isRequired,
+    sorting: PropTypes.exact({
+        groupName: PropTypes.string.isRequired,
+        direction: PropTypes.string.isRequired,
+    }),
+};
 
 const mapStateToProps = (state) => {
     const { contextYear, itemsCount, searchTerm, sorting } = state.appReducer;

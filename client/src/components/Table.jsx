@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableHead from './TableHead';
 import TableBody from './TableBody';
@@ -23,7 +24,10 @@ class Table extends React.Component {
 
         if (isNoData) {
             return (
-                <Message type='warning' text={`There is no data for ${contextYear} year`} />
+                <Message
+                    type='warning'
+                    text={`There is no data for ${contextYear} year`}
+                />
             );
         }
 
@@ -35,6 +39,23 @@ class Table extends React.Component {
         );
     }
 }
+
+const recordShape = PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+    expanded: PropTypes.bool.isRequired,
+    extract: PropTypes.string.isRequired,
+    population: PropTypes.objectOf(PropTypes.string.isRequired),
+    gdp: PropTypes.objectOf(PropTypes.string.isRequired),
+    gdpCapita: PropTypes.objectOf(PropTypes.string.isRequired),
+});
+
+Table.propTypes = {
+    contextYear: PropTypes.string.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    isFailed: PropTypes.bool.isRequired,
+    records: PropTypes.objectOf(recordShape),
+};
 
 const mapStateToProps = (state) => {
     const { isFetching, isFailed, records, contextYear } = state.appReducer;

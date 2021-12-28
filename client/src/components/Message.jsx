@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default ({ type, text }) => {
+ const Message = ({ type, text }) => {
     return (
         <div className='d-flex justify-content-center'>
             <div
@@ -11,3 +12,10 @@ export default ({ type, text }) => {
         </div>
     );
 };
+
+Message.propTypes = {
+    type: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+};
+
+export default Message;

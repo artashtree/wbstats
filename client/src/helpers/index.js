@@ -66,7 +66,7 @@ export const getData = async (year, itemsCount) => {
         for (let year in item.population) {
             if (!gdpCapita[year]) {
                 const value = parseInt(item.gdp[year] / item.population[year]);
-                gdpCapita[year] = value ? value : null;
+                gdpCapita[year] = value ? String(value) : '';
             }
         }
         return gdpCapita;
@@ -87,7 +87,7 @@ export const getData = async (year, itemsCount) => {
         const item = obj[itemKey];
         item.gdpCapita = getGdpPerCapita(item);
         item.expanded = false;
-        item.extract = null;
+        item.extract = '';
         item.key = itemKey;
         data[itemKey] = item;
     }

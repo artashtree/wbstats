@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { expandRecord, fetchWikiData, collapseRecords } from '../actions';
@@ -163,6 +164,27 @@ class TableBody extends React.Component {
         return <tbody>{tableRows}</tbody>;
     }
 }
+
+const recordShape = PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    key: PropTypes.string.isRequired,
+    expanded: PropTypes.bool.isRequired,
+    extract: PropTypes.string.isRequired,
+    population: PropTypes.objectOf(PropTypes.string.isRequired),
+    gdp: PropTypes.objectOf(PropTypes.string.isRequired),
+    gdpCapita: PropTypes.objectOf(PropTypes.string.isRequired),
+});
+
+TableBody.propTypes = {
+    contextYear: PropTypes.string.isRequired,
+    searchTerm: PropTypes.string.isRequired,
+    sorting: PropTypes.exact({
+        groupName: PropTypes.string.isRequired,
+        direction: PropTypes.string.isRequired,
+    }),
+    records: PropTypes.objectOf(recordShape),
+    filteredRecords: PropTypes.objectOf(recordShape),
+};
 
 const mapStateToProps = (state) => {
     const { records, contextYear, sorting, filteredRecords, searchTerm } =
