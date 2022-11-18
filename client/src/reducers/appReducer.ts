@@ -1,14 +1,6 @@
-import {
-    FETCH_WB_DATA,
-    FETCH_WB_DATA_SUCCESS,
-    FETCH_WB_DATA_FAILURE,
-    EXPAND_RECORD,
-    COLLAPSE_RECORDS,
-    SORT_BY_GROUP,
-    SET_CONTEXT_YEAR,
-    SET_SEARCH_TERM,
-} from '../actions/types';
-import { getSortedRecords } from '../helpers';
+import {} from 'react-redux'
+import * as types from '../actions/types';
+import { getSortedRecords } from '../helper';
 
 const initialState = {
     searchTerm: '',
@@ -24,16 +16,18 @@ const initialState = {
     filteredRecords: {},
 };
 
-export default function (state = initialState, action) {
+export type State = typeof initialState;
+
+export default function (state: State = initialState, action) {
     switch (action.type) {
-        case FETCH_WB_DATA: {
+        case types.FETCH_WB_DATA: {
             return {
                 ...state,
                 isFetching: true,
             };
         }
 
-        case FETCH_WB_DATA_SUCCESS: {
+        case types.FETCH_WB_DATA_SUCCESS: {
             const { searchTerm } = state;
             const records = action.payload;
             const filteredRecords = {};
@@ -57,7 +51,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case FETCH_WB_DATA_FAILURE: {
+        case types.FETCH_WB_DATA_FAILURE: {
             return {
                 ...state,
                 isFetching: false,
@@ -65,12 +59,12 @@ export default function (state = initialState, action) {
             };
         }
 
-        case EXPAND_RECORD: {
+        case types.EXPAND_RECORD: {
             const { records } = state;
             const { targetKey, response } = action.payload;
             const newRecords = {};
 
-            Object.keys(records).map((itemKey) => {
+            Object.keys(records).map(function(itemKey) {
                 const item = records[itemKey];
                 item.expanded = item.key === targetKey;
                 item.extract = item.key === targetKey ? response.extract : '';
@@ -83,11 +77,11 @@ export default function (state = initialState, action) {
             };
         }
 
-        case COLLAPSE_RECORDS: {
+        case types.COLLAPSE_RECORDS: {
             const { records } = state;
             const newRecords = {};
 
-            Object.keys(records).map((itemKey) => {
+            Object.keys(records).map(function(itemKey) {
                 const item = records[itemKey];
                 item.expanded = false;
                 newRecords[itemKey] = item;
@@ -99,24 +93,20 @@ export default function (state = initialState, action) {
             };
         }
 
-        case SORT_BY_GROUP: {
+        case types.SORT_BY_GROUP: {
             const { records, filteredRecords, contextYear, sorting } = state;
-            const { groupName: prevGroupName } = sorting;
+            // const { groupName: prevGroupName } = sorting;
             const { groupName, direction } = action.payload;
 
             const newRecords = getSortedRecords({
                 records,
-                contextYear,
                 groupName,
-                prevGroupName,
                 direction,
             });
 
             const newFilteredRecords = getSortedRecords({
                 records: filteredRecords,
-                contextYear,
                 groupName,
-                prevGroupName,
                 direction,
             });
 
@@ -131,7 +121,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case SET_CONTEXT_YEAR: {
+        case types.SET_CONTEXT_YEAR: {
             const { contextYear } = action.payload;
 
             return {
@@ -140,7 +130,7 @@ export default function (state = initialState, action) {
             };
         }
 
-        case SET_SEARCH_TERM: {
+        case types.SET_SEARCH_TERM: {
             const { searchTerm } = action.payload;
             const { records } = state;
             const filteredRecords = {};

@@ -45,9 +45,9 @@ const recordShape = PropTypes.shape({
     key: PropTypes.string.isRequired,
     expanded: PropTypes.bool.isRequired,
     extract: PropTypes.string.isRequired,
-    population: PropTypes.objectOf(PropTypes.string.isRequired),
-    gdp: PropTypes.objectOf(PropTypes.string.isRequired),
-    gdpCapita: PropTypes.objectOf(PropTypes.string.isRequired),
+    population: PropTypes.number.isRequired,
+    gdp: PropTypes.number.isRequired,
+    gdpCapita: PropTypes.number.isRequired,
 });
 
 Table.propTypes = {

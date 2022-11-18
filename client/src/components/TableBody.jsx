@@ -87,15 +87,15 @@ class TableBody extends React.Component {
         const tableRows = Object.keys(data).map((itemKey) => {
             const item = records[itemKey];
             const population =
-                item.population && item.population[contextYear]
-                    ? item.population[contextYear]
+                item.population
+                    ? item.population
                     : null;
             const gdp =
-                item.gdp && item.gdp[contextYear]
-                    ? item.gdp[contextYear]
+                item.gdp
+                    ? item.gdp
                     : null;
             const gdpCapita = item.gdpCapita
-                ? item.gdpCapita[contextYear]
+                ? item.gdpCapita
                 : null;
             const { name, extract, expanded } = item;
 
@@ -174,9 +174,9 @@ const recordShape = PropTypes.shape({
     key: PropTypes.string.isRequired,
     expanded: PropTypes.bool.isRequired,
     extract: PropTypes.string.isRequired,
-    population: PropTypes.objectOf(PropTypes.string.isRequired),
-    gdp: PropTypes.objectOf(PropTypes.string.isRequired),
-    gdpCapita: PropTypes.objectOf(PropTypes.string.isRequired),
+    population: PropTypes.number.isRequired,
+    gdp: PropTypes.number.isRequired,
+    gdpCapita: PropTypes.number.isRequired,
 });
 
 TableBody.propTypes = {

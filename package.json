@@ -4,17 +4,18 @@
   "description": "React with Node.js app to show Wourld Bank statistics",
   "engines": {
     "node": "16.x",
-    "yarn": "1.22.4"
+    "yarn": "1.22.19"
   },
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./index.js",
+    "start": "node ./server.js",
     "client": "cd client && npm start",
-    "server": "nodemon ./index.js",
+    "server": "nodemon ./server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
+    "@types/react-redux": "^7.1.24",
     "axios": "^0.19.2",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
@@ -28,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/art-ash/wbstats"
   },
   "keywords": [
     "node",

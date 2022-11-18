@@ -11,7 +11,7 @@ import {
     COLLAPSE_RECORDS,
     SET_SEARCH_TERM,
 } from './types';
-import { getData, getWikiExtract } from '../helpers';
+import { getData, getWikiExtract } from '../helper';
 import { wikiApi } from '../api';
 
 export const fetchWBData = (content) => {
