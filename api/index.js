@@ -1,8 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const path = require('path');
-const PORT = process.env.PORT || 5000;
-
 const app = express();
 
 app.get('/api/getPopulation/:year/:itemsCount', async (req, res) => {

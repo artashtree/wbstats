@@ -7,6 +7,7 @@ import {
     SORT_BY_GROUP,
     SET_CONTEXT_YEAR,
     SET_SEARCH_TERM,
+    SET_VIEW_MODE,
 } from '../actions/types';
 import { getSortedRecords } from '../helpers';
 
@@ -22,6 +23,7 @@ const initialState = {
     },
     records: {},
     filteredRecords: {},
+    viewMode: 'list',
 };
 
 export default function (state = initialState, action) {
@@ -157,6 +159,13 @@ export default function (state = initialState, action) {
                 ...state,
                 searchTerm,
                 filteredRecords,
+            };
+        }
+
+        case SET_VIEW_MODE: {
+            return {
+                ...state,
+                viewMode: action.payload,
             };
         }
 
