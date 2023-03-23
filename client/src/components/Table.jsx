@@ -5,9 +5,10 @@ import TableHead from './TableHead';
 import TableBody from './TableBody';
 import Preloader from './Preloader';
 import Message from './Message';
+import Chart from './Chart';
 class Table extends React.Component {
     render() {
-        const { isFetching, isFailed, records, contextYear } = this.props;
+        const { isFetching, isFailed, records, contextYear, viewMode } = this.props;
         const isNoData = Object.keys(records).length === 0;
 
         if (isFetching) {
@@ -34,7 +35,7 @@ class Table extends React.Component {
         return (
             <table className='table table-dark table-striped'>
                 <TableHead />
-                <TableBody />
+                {viewMode === 'list' ? <TableBody /> : <Chart />}
             </table>
         );
     }
@@ -55,16 +56,18 @@ Table.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     isFailed: PropTypes.bool.isRequired,
     records: PropTypes.objectOf(recordShape),
+    viewMode: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
-    const { isFetching, isFailed, records, contextYear } = state.appReducer;
+    const { isFetching, isFailed, records, contextYear, viewMode } = state.appReducer;
 
     return {
         isFetching,
         isFailed,
         records,
         contextYear,
+        viewMode,
     };
 };
 

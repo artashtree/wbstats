@@ -10,6 +10,7 @@ import {
     FETCH_WIKI_DATA_FAILURE,
     COLLAPSE_RECORDS,
     SET_SEARCH_TERM,
+    SET_VIEW_MODE,
 } from './types';
 import { getData, getWikiExtract } from '../helper';
 import { wikiApi } from '../api';
@@ -88,4 +89,9 @@ export const setSearchTerm = (searchTerm) => ({
     payload: {
         searchTerm,
     },
+});
+
+export const setViewMode = (mode) => ({
+    type: SET_VIEW_MODE,
+    payload: mode,
 });

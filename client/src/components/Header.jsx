@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { setContextYear, fetchWBData } from '../actions';
+import { setContextYear, fetchWBData, setViewMode } from '../actions';
 import logo from '../imgs/logo-wb.svg';
 import config from '../config';
 
@@ -87,18 +87,51 @@ class Header extends React.Component {
         this.props.history.push({ search });
     };
 
+    onRadioChange = (e) => {
+        this.props.setViewMode(e.target.value);
+    };
+
     render() {
         const { contextYear } = this.props;
 
         return (
             <header className='bg-white'>
-                <form className='p-2 d-flex justify-content-between'>
+                <form className='p-2 d-flex'>
                     <a
+                        className='me-auto'
                         href='https://www.worldbank.org/'
                         target='_blank'
                         rel='noopener noreferrer'>
                         <img src={logo} alt='WB Logo' />
                     </a>
+                    <div className='input-group w-25'>
+                    <div className="form-check">
+                        <input 
+                            className="form-check-input" 
+                            type="radio" 
+                            name="viewModeRadio" 
+                            id="listRadio" 
+                            value="list"
+                            onChange={this.onRadioChange}
+                            checked={this.props.viewMode === 'list'} />
+                        <label className="form-check-label me-3" htmlFor="listRadio">
+                            List
+                        </label>
+                        </div>
+                        <div className="form-check">
+                        <input 
+                            className="form-check-input" 
+                            type="radio" 
+                            name="viewModeRadio" 
+                            id="chartRadio" 
+                            value="chart"
+                            onChange={this.onRadioChange}
+                            checked={this.props.viewMode === 'chart'} />
+                        <label className="form-check-label" htmlFor="chartRadio">
+                            Chart
+                        </label>
+                    </div>
+                    </div>
                     <div className='input-group w-25'>
                         <div className='input-group-prepend'>
                             <label
@@ -132,20 +165,22 @@ Header.propTypes = {
         groupName: PropTypes.string.isRequired,
         direction: PropTypes.string.isRequired,
     }),
+    viewMode: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
-    const { contextYear, itemsCount, searchTerm, sorting } = state.appReducer;
+    const { contextYear, itemsCount, searchTerm, sorting, viewMode } = state.appReducer;
 
     return {
         contextYear,
         itemsCount,
         searchTerm,
         sorting,
+        viewMode,
     };
 };
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, { setContextYear, fetchWBData })
+    connect(mapStateToProps, { setContextYear, fetchWBData, setViewMode })
 )(Header);
